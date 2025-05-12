@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_padding">16dp</dimen>
+    <dimen name="content_padding">8dp</dimen>
+    <dimen name="tv_padding">6dp</dimen>
+    <dimen name="small_padding">5dp</dimen>
+    <dimen name="medium_padding">14dp</dimen>
+    <dimen name="extra_large_padding">60dp</dimen>
+    <dimen name="small_content_padding">4dp</dimen>
+    <dimen name="edit_text_padding">30dp</dimen>
+    <dimen name="start_padding">10sp</dimen>
+    <dimen name="start_margin">10sp</dimen>
+    <dimen name="textSizeInButton">15sp</dimen>
+    <dimen name="textSizeSmall">16sp</dimen>
+    <dimen name="textSizeInEditText">18sp</dimen>
+    <dimen name="textSizeLarge">25sp</dimen>
+    <dimen name="textSizeLargest">50sp</dimen>
+    <dimen name="textSizeMedium">20sp</dimen>
+    <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="card_elevation">10dp</dimen>
+    <dimen name="normal_card_elevation">20dp</dimen>
+    <dimen name="card_stroke">2dp</dimen>
+    <dimen name="edit_text_radius">8dp</dimen>
+    <dimen name="bottom_menu_height">85dp</dimen>
+
+
+
+    <dimen name="smallest_image_icon_width">25dp</dimen>
+    <dimen name="smallest_image_icon_height">25dp</dimen>
+    <dimen name="small_image_icon_width">50dp</dimen>
+    <dimen name="small_image_icon_height">50dp</dimen>
+
+    <dimen name="image_icon_width">100dp</dimen>
+    <dimen name="image_icon_height">100dp</dimen>
+
+    <dimen name="image_view_height">150dp</dimen>
+    <dimen name="image_view_width">150dp</dimen>
+
+    <dimen name="details_image_view_height">70dp</dimen>
+    <dimen name="details_image_view_width">70dp</dimen>
+
+    <dimen name="search_close_dimen">40dp</dimen>
+    <dimen name="rv_list_margin_dimen">8dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="appbar_padding">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+
+</resources>

@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AcLoc" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+
+    <style name="Theme.AcLoc" parent="Base.Theme.AcLoc">
+        <item name="colorPrimary">@color/primaryColor_dark</item>
+        <item name="colorPrimaryVariant">@color/primaryVariant_dark</item>
+        <item name="colorOnPrimary">@color/onPrimaryColor_dark</item>
+        <item name="colorSecondary">@color/onSecondaryColor_dark</item>
+        <item name="android:colorBackground">@color/backgroundColor_dark</item>
+        <item name="colorSurface">@color/surfaceColor_dark</item>
+        <item name="android:textColorPrimary">@color/onBackgroundColor_dark</item>
+        <item name="colorOnSurface">@color/onSurfaceColor_dark</item>  <!-- Ensure this is set -->
+        <item name="colorError">@color/errorColor_dark</item> <!-- Error Color -->
+        <item name="colorAccent">@color/accentColor_dark</item> <!-- Accent Color -->
+        <item name="backgroundColor">@color/backgroundColor_dark</item>
+        <item name="colorTertiary">@color/colorTertiary_dark</item>
+
+    </style>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_person"
+        android:title="@string/Profile"
+        app:iconTint="?attr/colorPrimaryVariant" />
+
+    <item
+        android:id="@+id/menu_changePassword"
+        android:icon="@drawable/ic_lock"
+        android:title="@string/Change_Password"
+        app:iconTint="?attr/colorPrimaryVariant" />
+
+    <item
+        android:id="@+id/menu_changeLanguage"
+        android:icon="@drawable/ic_language"
+        android:title="@string/Change_Language"
+        app:iconTint="?attr/colorPrimaryVariant" />
+
+    <item
+        android:id="@+id/menu_manageRoles"
+        android:icon="@drawable/ic_manage_roles"
+        android:title="@string/Manage_Roles"
+        app:iconTint="?attr/colorPrimaryVariant" />
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/Logout"
+        app:iconTint="?attr/colorError" />
+
+</menu>

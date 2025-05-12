@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlPlaceDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PlaceDetailActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnSubmit"
+        android:layout_below="@id/toolbar"
+        android:fillViewport="true"
+        android:padding="@dimen/layout_padding">
+
+        <LinearLayout
+            android:id="@+id/llInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivProductPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_icon_height"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle"
+                android:importantForAccessibility="no"
+                android:importantForAutofill="no"
+                android:scaleType="fitXY"
+                android:src="@drawable/place_header" />
+
+
+            <!-- Place Name and Icons Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:orientation="vertical">
+
+                    <!-- Place Name -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Place_Name"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="@dimen/textSizeLarge"
+                        android:textStyle="bold"
+                        app:startIconDrawable="@drawable/ic_location" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/etPlaceName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:hint="@string/Place_Name"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:text="@string/Place_Name"
+                        android:textSize="@dimen/textSizeInEditText"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Favorite & Edit Icons -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivFavorite"
+                        android:layout_width="@dimen/small_image_icon_width"
+                        android:layout_height="@dimen/small_image_icon_height"
+                        android:autofillHints="Add to Favorite"
+                        android:contentDescription="Add to Favorite"
+                        android:src="@drawable/ic_favorite_border"
+                        />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/small_padding" />
+
+                    <ImageView
+                        android:id="@+id/ivEdit"
+                        android:layout_width="@dimen/smallest_image_icon_width"
+                        android:layout_height="@dimen/smallest_image_icon_height"
+                        android:autofillHints="Edit Place"
+                        android:contentDescription="Edit Place"
+                        android:src="@drawable/ic_edit_location"
+                        app:tint="?attr/colorOnBackground" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Address-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_padding"
+                    android:layout_weight="1"
+                    android:text="@string/Address"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="@dimen/textSizeLarge"
+                    android:textStyle="bold"
+                    app:startIconDrawable="@drawable/ic_location" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="@string/Address"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:text="@string/Address"
+                    android:textColor="@color/neutralGrey"
+                    android:textSize="@dimen/textSizeSmall" />
+            </LinearLayout>
+
+            <!--Place description-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_padding"
+                    android:layout_weight="1"
+                    android:text="@string/Place_Description"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="@dimen/textSizeLarge"
+                    android:textStyle="bold"
+                    app:startIconDrawable="@drawable/ic_location" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/etPlaceDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="@string/Place_Description"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:text="@string/Place_Description"
+                    android:textColor="@color/neutralGrey"
+                    android:textSize="@dimen/textSizeSmall" />
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:layout_marginBottom="@dimen/small_padding"
+                android:text="@string/Report"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/textSizeLarge"
+                android:textStyle="bold"
+                app:startIconDrawable="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/tvNoData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/No_reports_found"
+                android:textAlignment="center" />
+
+            <!--    Report details  -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                tools:listitem="@layout/list_view_place_reports" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!--    Add Report btn  -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:background="?attr/colorPrimary"
+        android:backgroundTintMode="src_atop"
+        android:text="@string/ADD_REPORT"
+        android:textColor="?attr/colorOnPrimary" />
+
+</RelativeLayout>

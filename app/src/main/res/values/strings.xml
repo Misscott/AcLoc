@@ -1,0 +1,158 @@
+<resources>
+    <string name="app_name">AcLoc - Accessible Locations Application</string>
+
+    <!--    BUTTON TITLE    -->
+    <string name="LOGIN">LOGIN</string>
+    <string name="REGISTER">REGISTER</string>
+    <string name="SAVE_PLACE">SAVE PLACE</string>
+    <string name="UPDATE">UPDATE</string>
+    <string name="CANCEL">CANCEL</string>
+    <string name="SUBMIT">SUBMIT</string>
+    <string name="ADD_REPORT">ADD REPORT</string>
+
+    <!--    toolbar -->
+    <string name="Add_Report">Add Report</string>
+    <string name="Place_Details">Place Details</string>
+    <string name="Add_Place">Add Place</string>
+
+
+    <!--    edittext    -->
+    <string name="Enter_Username">Enter Username</string>
+    <string name="Enter_Password">Enter Password</string>
+    <string name="Enter_Email">Enter Email</string>
+    <string name="Enter_Name">Enter Name</string>
+    <string name="Enter_Location">Enter Location</string>
+    <string name="Enter_Contact">Enter Contact</string>
+    <string name="Already_have_an_Account">"Already have an Account?   </string>
+    <string name="Please_login">Please login</string>
+    <string name="Please_register">Please register</string>
+    <string name="Dont_have_an_Account">Don\'t have an Account?   </string>
+    <string name="Favorite">Favorite</string>
+    <string name="My_Report">My Report</string>
+    <string name="Map">Map</string>
+    <string name="Profile">Profile</string>
+    <string name="Change_Password">Change Password</string>
+    <string name="Manage_Roles">Manage Roles</string>
+    <string name="Change_Language">Change Language</string>
+    <string name="Logout">Logout</string>
+    <string name="Enter_Place_Name">Enter Place Name</string>
+    <string name="Enter_Latitude">Enter Latitude</string>
+    <string name="Enter_Longitude">Enter Longitude</string>
+    <string name="Enter_Address">Enter Address</string>
+    <string name="Enter_Place_Description">Enter Place Description</string>
+    <string name="Search_Place">Search Place</string>
+    <string name="Enter_Old_Password">Enter Old Password</string>
+    <string name="Enter_New_Password">Enter New Password</string>
+    <string name="Place_Name">Place Name</string>
+    <string name="Address">Address</string>
+    <string name="Place_Description">Place Description</string>
+    <string name="Enter_Description">Enter Description</string>
+    <string name="Report_Description">Report Description</string>
+    <string name="Report">Report</string>
+    <string name="Search_User">Search User</string>
+    <string name="User">User</string>
+    <string name="Role">Role</string>
+    <string name="Change_Role">Change Role</string>
+
+    <!--TextView-->
+    <string name="GOOD">GOOD</string>
+    <string name="AVERAGE">AVERAGE</string>
+    <string name="BAD">BAD</string>
+
+    <!--    Alert dialog    -->
+    <string name="change_language_confirmation">change language to Spanish</string>
+    <string name="Are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="confirmation_message">Are you sure you want to %1$s?\nWARNING: This action cannot be undone</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="Location_Permission_Required">Location permission required</string>
+    <string name="Location_permission_rationale">This app requires location permission to function properly. Please enable it in Settings.</string>
+    <string name="Go_to_Settings">Go to Settings</string>
+    <string name="Exit_App">Exit App</string>
+
+
+    <!--    Snackbar text   -->
+    <string name="Something_went_wrong">Something went wrong!!!</string>
+    <string name="Login_failed">Login failed</string>
+    <string name="Invalid_Credentials_Please_try_again">Invalid Credentials. Please try again.</string>
+    <string name="Login_Successful">Login Successful</string>
+    <string name="Please_wait">Please wait...</string>
+    <string name="User_already_exists_Please_login">"User already exists. Please login.</string>
+    <string name="Profile_Updated_Successfully">Profile Updated Successfully!</string>
+    <string name="Registration_Successful">Registration Successful</string>
+    <string name="Try_again_later">Try again later</string>
+    <string name="Update_Failed">Update Failed </string>
+    <string name="Something_went_wrong_Try_again">Something went wrong. Try again.</string>
+    <string name="Updating">Updating...</string>
+    <string name="Invalid_old_password">Invalid old password</string>
+    <string name="Network_error_Try_again">Network error. Try again.</string>
+    <string name="Changing_password">Changing password...</string>
+    <string name="Password_updated_successfully">Password updated successfully!</string>
+    <string name="Password_update_failed">Password update failed.</string>
+    <string name="Verifying_old_password">Verifying old password...</string>
+    <string name="Change_Role_to">change Role to </string>
+    <string name="Updating_Role">Updating Roles...</string>
+    <string name="User_Role_update_successfully">User Role updated successfully!</string>
+    <string name="Update_failed_Server_error_Try_again">Update failed. Server error. Try again</string>
+    <string name="Rating_BAD">Rating: BAD</string>
+    <string name="Rating_AVERAGE">Rating: AVERAGE</string>
+    <string name="Rating_GOOD">Rating: GOOD</string>
+    <string name="Delete_report">Delete report</string>
+    <string name="Removing_Report">Removing Report...</string>
+    <string name="Report_removed">Report removed!</string>
+    <string name="Failed_to_remove_report">Failed to remove report</string>
+    <string name="Removing_from_favorites">Removing from favorites...</string>
+    <string name="Favorite_removed">Favorite removed</string>
+    <string name="Failed_to_remove_Favorite">Failed to remove Favorite</string>
+    <string name="Loading_Favorites">Loading favorites...</string>
+    <string name="No_Favorite_found">No Favorite found.</string>
+    <string name="Failed_to_load_favorite_Try_again">Failed to load favorite. Try again.</string>
+    <string name="Location_permission_is_required">Location permission is required</string>
+    <string name="Failed_to_load_places">Failed to load places</string>
+    <string name="Loading_reports">Loading reports...</string>
+    <string name="No_reports_found">No reports found.</string>
+    <string name="Failed_to_load_reports_Try_again.">Failed to load reports. Try again.</string>
+    <string name="Place_updated_successfully">Place updated successfully!</string>
+    <string name="Updating_place">Updating place...</string>
+    <string name="Place_inserted_successfully">Place inserted successfully!</string>
+    <string name="Failed_to_extract_place_Try_again">Failed to extract place.Try again</string>
+    <string name="Insert_failed_Server_error">Insert failed. Server error.</string>
+    <string name="Report_submission_failed_Try_again">Report submission failed. Try again</string>
+    <string name="Report_submitted_successfully">Report submitted successfully!</string>
+    <string name="Please_select_rating">Please select rating!</string>
+    <string name="Updating_report">Updating report...</string>
+    <string name="Report_updated_successfully">Report updated successfully!</string>
+    <string name="Failed_to_load_users_Try_again">Failed to load users. Try again.</string>
+    <string name="No_users_found">No users found</string>
+    <string name="Loading_users">Loading users...</string>
+    <string name="Adding_to_favorites">Adding to favorites...</string>
+    <string name="Place_added_to_favorites">Place added to favorites!</string>
+    <string name="Failed_to_add_favorite_Server_error">Failed to add favorite. Server error.</string>
+    <string name="Restoring_favorite">Restoring favorite...</string>
+    <string name="Place_restored_to_favorites">Place restored to favorites!</string>
+    <string name="Failed_to_restore_favorite">Failed to restore favorite.</string>
+    <string name="Removed_from_favorites">Removed from favorites</string>
+    <string name="Failed_to_remove_from_favorites">Failed to remove from favorites</string>
+    <string name="Checking_favorite_status">Checking favorite status...</string>
+    <!--    <string name="Logout">Logout</string>-->
+    <!--    <string name="Logout">Logout</string>-->
+    <!--    <string name="Logout">Logout</string>-->
+    <!--    <string name="Logout">Logout</string>-->
+    <!--    <string name="Logout">Logout</string>-->
+
+
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+    <!--        <string name="Logout">Logout</string>-->
+
+
+    <string name="google_maps_api_key">AIzaSyCzcuZhHd-GqadewAiCbh4NuaBhO2AcPOY</string>
+
+
+</resources>
