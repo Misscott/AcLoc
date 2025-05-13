@@ -1,4 +1,4 @@
-package com.example.acloc.activities;
+package com.example.acloc.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acloc.R;
+import com.ieslamar.acloc.R;
 import com.example.acloc.adapter.PlaceReportsAdapter;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;

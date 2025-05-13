@@ -1,4 +1,4 @@
-package com.example.acloc.activities;
+package com.example.acloc.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.acloc.R;
+import com.ieslamar.acloc.R;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.User;

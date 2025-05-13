@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.example.acloc.R;
+import com.ieslamar.acloc.R;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.utility.DialogUtils;

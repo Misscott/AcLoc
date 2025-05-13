@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.acloc.R;
+import com.ieslamar.acloc.R;
 import com.example.acloc.adapter.FavoriteAdapter;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;

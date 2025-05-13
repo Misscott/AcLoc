@@ -1,4 +1,4 @@
-package com.example.acloc.activities;
+package com.example.acloc.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acloc.R;
 import com.example.acloc.adapter.UserAdapter;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
@@ -22,6 +21,7 @@ import com.example.acloc.model.User;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
+import com.ieslamar.acloc.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonElement;

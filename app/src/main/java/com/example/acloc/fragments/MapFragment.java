@@ -25,9 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.acloc.R;
-import com.example.acloc.activities.AddNewPlaceActivity;
-import com.example.acloc.activities.PlaceDetailActivity;
+import com.ieslamar.acloc.R;
+import com.example.acloc.activity.AddNewPlaceActivity;
+import com.example.acloc.activity.PlaceDetailActivity;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.Place;
 import com.example.acloc.utility.Constants;

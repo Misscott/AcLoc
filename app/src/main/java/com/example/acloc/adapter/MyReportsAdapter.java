@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acloc.R;
-import com.example.acloc.activities.AddReportActivity;
+import com.ieslamar.acloc.R;
+import com.example.acloc.activity.AddReportActivity;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.Report;

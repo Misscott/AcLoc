@@ -1,4 +1,4 @@
-package com.example.acloc.activities;
+package com.example.acloc.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.acloc.R;
+import com.ieslamar.acloc.R;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.Place;

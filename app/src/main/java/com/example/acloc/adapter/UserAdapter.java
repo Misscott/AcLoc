@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acloc.R;
-import com.example.acloc.activities.ManageRolesActivity;
+import com.ieslamar.acloc.R;
+import com.example.acloc.activity.ManageRolesActivity;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.User;

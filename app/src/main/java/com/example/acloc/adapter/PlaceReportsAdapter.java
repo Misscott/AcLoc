@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acloc.R;
+import com.ieslamar.acloc.R;
 import com.example.acloc.model.Report;
 
 import java.util.List;

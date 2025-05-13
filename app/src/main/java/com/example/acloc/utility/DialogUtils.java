@@ -10,8 +10,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.example.acloc.R;
-import com.example.acloc.activities.LoginActivity;
+import com.ieslamar.acloc.R;
+import com.example.acloc.activity.LoginActivity;
 
 public class DialogUtils {
     private static Dialog dialog;

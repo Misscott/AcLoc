@@ -1,4 +1,4 @@
-package com.example.acloc.activities;
+package com.example.acloc.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.acloc.MainActivity;
-import com.example.acloc.R;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.User;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
+import com.ieslamar.acloc.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 DialogUtils.dismissDialog();
                 Log.e(TAG, "Login API call failed", t);
 //                Helper.makeSnackBar(rlLogin, getString(R.string.Something_went_wrong));
-                Helper.makeSnackBar(rlLogin, "API Failure: " + t.toString() + " Try again");
+                Helper.makeSnackBar(rlLogin, "Server error: " + t.toString() + " Try again");
             }
         });
     }

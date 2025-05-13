@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acloc.R;
-import com.example.acloc.activities.PlaceDetailActivity;
+import com.ieslamar.acloc.R;
+import com.example.acloc.activity.PlaceDetailActivity;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.Favorite;
@@ -73,9 +73,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 holder.tvDescription.setText(favorite.getPlaceDescription());
 
                 // handle favorite on click
-                holder.ivFavorite.setOnClickListener(v -> {
-                    removePlaceFromFavorites(SharedPref.getUserUid(context), favorite.getPlaceUuid(), favorite.getUuid());
-                });
+                holder.ivFavorite.setOnClickListener(v -> removePlaceFromFavorites(SharedPref.getUserUid(context), favorite.getPlaceUuid(), favorite.getUuid()));
 
                 holder.itemView.setOnClickListener(v ->  getPlaceByUuid(favorite.getPlaceUuid()));
             }

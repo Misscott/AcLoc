@@ -1,4 +1,4 @@
-package com.example.acloc.activities;
+package com.example.acloc.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,7 +18,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.example.acloc.R;
 import com.example.acloc.api.ApiClient;
 import com.example.acloc.interfaces.ApiService;
 import com.example.acloc.model.Place;
@@ -27,6 +26,7 @@ import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
+import com.ieslamar.acloc.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
