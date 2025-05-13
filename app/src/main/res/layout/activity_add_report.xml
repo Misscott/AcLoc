@@ -14,175 +14,308 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btnSubmit"
+        android:layout_above="@id/btnSubmitContainer"
         android:layout_below="@id/toolbar"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
-        android:padding="@dimen/layout_padding">
+        android:clipToPadding="false"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/ivReportPhoto"
-                android:layout_width="@dimen/image_view_width"
-                android:layout_height="@dimen/image_view_height"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/layout_padding"
-                android:background="@drawable/rectangle"
-                android:importantForAccessibility="no"
-                android:importantForAutofill="no"
-                android:padding="@dimen/content_padding"
-                android:src="@drawable/logo_add_location" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <!-- Report Form Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_padding"
-                app:startIconDrawable="@drawable/ic_location">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPlaceName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="@string/Enter_Place_Name"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    tools:ignore="HardcodedText" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <!-- Header -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_report"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Image Container -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="8dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorPrimary"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/ivReportPhoto"
+                            android:layout_width="@dimen/image_view_width"
+                            android:layout_height="@dimen/image_view_height"
+                            android:padding="@dimen/content_padding"
+                            android:background="@drawable/rectangle"
+                            android:importantForAccessibility="no"
+                            android:importantForAutofill="no"
+                            android:src="@drawable/logo_add_location" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tap_to_add_photo"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Place Name Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:startIconDrawable="@drawable/ic_location"
+                        app:startIconTint="?attr/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
+                        app:hintTextColor="?attr/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPlaceName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:hint="@string/Enter_Place_Name"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Description Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_location"
+                        app:startIconTint="?attr/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
+                        app:hintTextColor="?attr/colorPrimary"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="200">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/Enter_Description"
+                            android:importantForAutofill="no"
+                            android:inputType="textImeMultiLine"
+                            android:minLines="3"
+                            android:maxLines="5"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Rating Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_padding"
-                app:startIconDrawable="@drawable/ic_location">
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDescription"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Enter_Description"
-                    android:importantForAutofill="no"
-                    android:inputType="textImeMultiLine"
-                    android:maxLines="5"
-                    tools:ignore="HardcodedText" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_padding"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivThumbsUp"
-                        android:layout_width="@dimen/image_icon_width"
-                        android:layout_height="@dimen/image_icon_height"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:contentDescription="Thumbs Up"
-                        android:focusable="true"
-                        android:padding="8dp"
-                        app:tint="?attr/colorOnBackground"
-                        android:src="@drawable/ic_thumb_up_border" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
+                    <!-- Rating Header -->
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/GOOD"
+                        android:text="@string/how_would_you_rate_this_place"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="@dimen/textSizeInEditText"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                        android:textAlignment="center"
+                        android:layout_marginBottom="16dp"/>
 
-                <Space
-                    android:layout_width="@dimen/edit_text_padding"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivThumbsAverage"
-                        android:layout_width="@dimen/image_icon_width"
-                        android:layout_height="@dimen/image_icon_height"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:contentDescription="Thumbs Average"
-                        android:focusable="true"
-                        android:padding="8dp"
-                        app:tint="?attr/colorOnBackground"
-                        android:src="@drawable/ic_thumb_up_border" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
+                    <!-- Rating Options -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/AVERAGE"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="@dimen/textSizeInEditText"
-                        android:textStyle="bold" />
+                        android:baselineAligned="false"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <!-- Good Rating -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="8dp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="2dp"
+                                app:cardBackgroundColor="@android:color/transparent">
+
+                                <ImageView
+                                    android:id="@+id/ivThumbsUp"
+                                    android:layout_width="@dimen/image_icon_width"
+                                    android:layout_height="@dimen/image_icon_height"
+                                    android:background="?selectableItemBackgroundBorderless"
+                                    android:clickable="true"
+                                    android:contentDescription="Thumbs Up"
+                                    android:focusable="true"
+                                    android:padding="12dp"
+                                    app:tint="@color/green"
+                                    android:src="@drawable/ic_thumb_up_border" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/GOOD"
+                                android:textColor="?attr/colorPrimary"
+                                android:textSize="@dimen/textSizeInEditText"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Average Rating -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="8dp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="2dp"
+                                app:cardBackgroundColor="@android:color/transparent">
+
+                                <ImageView
+                                    android:id="@+id/ivThumbsAverage"
+                                    android:layout_width="@dimen/image_icon_width"
+                                    android:layout_height="@dimen/image_icon_height"
+                                    android:background="?selectableItemBackgroundBorderless"
+                                    android:clickable="true"
+                                    android:contentDescription="Thumbs Average"
+                                    android:focusable="true"
+                                    android:rotation="260"
+                                    android:padding="12dp"
+                                    app:tint="@color/yellow"
+                                    android:src="@drawable/ic_thumb_up_border" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/AVERAGE"
+                                android:textColor="?attr/colorPrimary"
+                                android:textSize="@dimen/textSizeInEditText"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Bad Rating -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="8dp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="2dp"
+                                app:cardBackgroundColor="@android:color/transparent">
+
+                                <ImageView
+                                    android:id="@+id/ivThumbsDown"
+                                    android:layout_width="@dimen/image_icon_width"
+                                    android:layout_height="@dimen/image_icon_height"
+                                    android:background="?selectableItemBackgroundBorderless"
+                                    android:clickable="true"
+                                    android:contentDescription="Thumbs Down"
+                                    android:focusable="true"
+                                    android:padding="12dp"
+                                    app:tint="@color/red"
+                                    android:src="@drawable/ic_thumb_down_border" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/BAD"
+                                android:textColor="?attr/colorPrimary"
+                                android:textSize="@dimen/textSizeInEditText"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-
-                <Space
-                    android:layout_width="@dimen/edit_text_padding"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivThumbsDown"
-                        android:layout_width="@dimen/image_icon_width"
-                        android:layout_height="@dimen/image_icon_height"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:contentDescription="Thumbs Down"
-                        android:focusable="true"
-                        android:padding="8dp"
-                        app:tint="?attr/colorOnBackground"
-                        android:src="@drawable/ic_thumb_down_border" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/BAD"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="@dimen/textSizeInEditText"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-
     </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSubmit"
+    <!-- Submit Button Container -->
+    <FrameLayout
+        android:id="@+id/btnSubmitContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?attr/colorPrimary"
-        android:backgroundTintMode="src_atop"
-        android:text="@string/SUBMIT"
-        android:textColor="?attr/colorOnPrimary"
-        tools:ignore="HardcodedText"
-        />
+        android:background="@android:color/white"
+        android:elevation="8dp"
+        android:padding="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="@string/SUBMIT"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            tools:ignore="HardcodedText" />
+    </FrameLayout>
 </RelativeLayout>

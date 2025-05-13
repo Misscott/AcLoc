@@ -153,6 +153,14 @@
 
 
     <string name="google_maps_api_key">AIzaSyCzcuZhHd-GqadewAiCbh4NuaBhO2AcPOY</string>
+    <string name="add_new_location">Add New Location</string>
+    <string name="tap_to_add_photo">Tap to add photo</string>
+    <string name="location_details">Location Details</string>
+    <string name="additional_information">Additional Information</string>
+    <string name="add_report">Rate this place!</string>
+    <string name="how_would_you_rate_this_place">How would you rate the accessibility of this place?</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="sign_in_to_continue">Sign in to continue</string>
 
 
 </resources>
