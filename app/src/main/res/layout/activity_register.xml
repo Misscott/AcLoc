@@ -5,7 +5,7 @@
     android:id="@+id/rlRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RegisterActivity">
+    tools:context="com.example.acloc.activity.RegisterActivity">
 
     <include
         android:id="@+id/toolbar"

@@ -5,7 +5,7 @@
     android:id="@+id/rlAddPlace"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AddNewPlaceActivity">
+    tools:context="com.example.acloc.activity.AddNewPlaceActivity">
 
     <include
         android:id="@+id/toolbar"

@@ -5,7 +5,7 @@
     android:id="@+id/rlPlaceDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.PlaceDetailActivity">
+    tools:context="com.example.acloc.activity.PlaceDetailActivity">
 
     <include
         android:id="@+id/toolbar"
