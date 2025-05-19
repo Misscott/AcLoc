@@ -17,9 +17,9 @@ import android.widget.TextView;
 
 import com.ieslamar.acloc.R;
 import com.example.acloc.adapter.FavoriteAdapter;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Favorite;
+import com.example.acloc.service.FavoriteService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
@@ -135,9 +135,10 @@ public class FavoriteFragment extends Fragment {
         DialogUtils.showLoadingDialog(context, context.getString(R.string.Loading_Favorites));
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.getUserFavorites(token, userUuid);
+        FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
+        Call<JsonObject> call = favoriteService.getFavoritePlaces(token, userUuid);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -191,6 +192,4 @@ public class FavoriteFragment extends Fragment {
             }
         });
     }
-
-
 }

@@ -20,13 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.acloc.activity.ManageRolesActivity;
-import com.example.acloc.api.ApiClient;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.dialog.AlertChangePasswordDialog;
 import com.example.acloc.dialog.AlertViewOrUpdateProfileDialog;
 import com.example.acloc.fragments.FavoriteFragment;
 import com.example.acloc.fragments.MapFragment;
 import com.example.acloc.fragments.MyReportsFragment;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.service.RoleService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
@@ -359,9 +359,10 @@ public class MainActivity extends AppCompatActivity {
         DialogUtils.showLoadingDialog(context, "");
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.getRoles(token);
+        RoleService roleService = LocationApiClient.getInstance().getRoleService();
+
+        Call<JsonObject> call = roleService.getRoles(token);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

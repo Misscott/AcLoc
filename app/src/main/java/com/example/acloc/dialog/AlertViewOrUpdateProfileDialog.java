@@ -13,8 +13,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.ieslamar.acloc.R;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
+import com.example.acloc.service.UserService;
 import com.example.acloc.model.User;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -137,8 +137,8 @@ public class AlertViewOrUpdateProfileDialog implements View.OnClickListener {
         String accessToken = SharedPref.getAccessToken(context);
         String bearerToken = "Bearer " + accessToken;
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<JsonObject> call = apiService.updateUser(bearerToken, uuid, jsonBody);
+        UserService userService = LocationApiClient.getInstance().getUserService();
+        Call<JsonObject> call = userService.updateUser(bearerToken, uuid, jsonBody);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -175,5 +175,4 @@ public class AlertViewOrUpdateProfileDialog implements View.OnClickListener {
             }
         });
     }
-
 }

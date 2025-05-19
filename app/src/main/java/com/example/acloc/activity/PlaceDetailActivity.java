@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ieslamar.acloc.R;
 import com.example.acloc.adapter.PlaceReportsAdapter;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
 import com.example.acloc.model.Report;
+import com.example.acloc.service.FavoriteService;
+import com.example.acloc.service.PlaceService;
+import com.example.acloc.service.ReportService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -215,9 +217,10 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         Log.d(TAG, "Request Body: " + body.toString());
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.addPlaceToFavorites(token, userUuid, body);
+        FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
+        Call<JsonObject> call = favoriteService.restorePlaceToFavorites(token, userUuid, body);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -264,9 +267,10 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         body.addProperty("place_uuid", placeUuid);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.restorePlaceToFavorites(token, userUuid, body);
+        FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
+        Call<JsonObject> call = favoriteService.restorePlaceToFavorites(token, userUuid, body);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -292,9 +296,10 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
     private void removePlaceFromFavorites(String userUuid, String placeUuid) {
         DialogUtils.showLoadingDialog(context, getString(R.string.Removing_from_favorites));
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<Void> call = apiService.removePlaceFromFavorites(token, userUuid, placeUuid);
+        FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
+        Call<Void> call = favoriteService.removePlaceFromFavorites(token, userUuid, placeUuid);
+
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -323,9 +328,10 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         DialogUtils.showLoadingDialog(context, getString(R.string.Checking_favorite_status));
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.getFavoritePlaces(token, userUuid);
+        FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
+        Call<JsonObject> call = favoriteService.getFavoritePlaces(token, userUuid);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -374,10 +380,10 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         DialogUtils.showLoadingDialog(context, getString(R.string.Loading_reports));
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        // Make the API call to fetch reports by place UUID
-        Call<JsonObject> call = apiService.getPlaceReports(token, placeUuid);
+        ReportService reportService = LocationApiClient.getInstance().getReportService();
+        Call<JsonObject> call = reportService.getPlaceReports(token, placeUuid);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -426,5 +432,4 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
 }

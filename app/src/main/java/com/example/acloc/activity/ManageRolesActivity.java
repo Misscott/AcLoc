@@ -15,9 +15,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.acloc.adapter.UserAdapter;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.User;
+import com.example.acloc.service.UserService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
@@ -72,7 +72,7 @@ public class ManageRolesActivity extends AppCompatActivity {
         if (isDataAvailable) {
             rvUsers.setVisibility(View.VISIBLE);
         } else {
-            //            rvReports.setVisibility(View.GONE);
+            //            rvUsers.setVisibility(View.GONE);
 
         }
     }
@@ -185,9 +185,10 @@ public class ManageRolesActivity extends AppCompatActivity {
         DialogUtils.showLoadingDialog(context, getString(R.string.Loading_users));
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.getAllUsers(token);
+        UserService userService = LocationApiClient.getInstance().getUserService();
+        Call<JsonObject> call = userService.getAllUsers(token);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

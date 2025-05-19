@@ -17,9 +17,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ieslamar.acloc.R;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
+import com.example.acloc.service.PlaceService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -188,9 +188,10 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         placeBody.addProperty("createdBy", createdBy);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.insertPlace(token, placeBody);
+        PlaceService placeService = LocationApiClient.getInstance().getPlaceService();
+        Call<JsonObject> call = placeService.insertPlace(token, placeBody);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -238,9 +239,10 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         placeBody.addProperty("createdBy", createdBy);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.updatePlace(token, uuid, placeBody);
+        PlaceService placeService = LocationApiClient.getInstance().getPlaceService();
+        Call<JsonObject> call = placeService.updatePlace(token, uuid, placeBody);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

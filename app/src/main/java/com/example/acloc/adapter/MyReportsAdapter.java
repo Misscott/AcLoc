@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ieslamar.acloc.R;
 import com.example.acloc.activity.AddReportActivity;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Report;
+import com.example.acloc.service.ReportService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -124,9 +124,10 @@ public class MyReportsAdapter extends RecyclerView.Adapter<MyReportsAdapter.View
     private void removeReport(String reportUuid) {
         DialogUtils.showLoadingDialog(context, context.getString(R.string.Removing_Report));
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<Void> call = apiService.removeReport(token, reportUuid);
+        ReportService reportService = LocationApiClient.getInstance().getReportService();
+        Call<Void> call = reportService.removeReport(token, reportUuid);
+
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

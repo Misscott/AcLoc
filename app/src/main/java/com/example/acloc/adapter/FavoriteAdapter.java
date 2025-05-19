@@ -16,10 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ieslamar.acloc.R;
 import com.example.acloc.activity.PlaceDetailActivity;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Favorite;
 import com.example.acloc.model.Place;
+import com.example.acloc.service.FavoriteService;
+import com.example.acloc.service.PlaceService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -102,9 +103,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     private void removePlaceFromFavorites(String userUuid, String placeUuid, String favoriteUuid) {
         DialogUtils.showLoadingDialog(context, context.getString(R.string.Removing_from_favorites));
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<Void> call = apiService.removePlaceFromFavorites(token, userUuid, placeUuid);
+        FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
+        Call<Void> call = favoriteService.removePlaceFromFavorites(token, userUuid, placeUuid);
+
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -149,9 +151,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         DialogUtils.showLoadingDialog(context, context.getString(R.string.Please_wait));
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.getPlaceFromUuid(token, placeUuid);
+        PlaceService placeService = LocationApiClient.getInstance().getPlaceService();
+        Call<JsonObject> call = placeService.getPlaceFromUuid(token, placeUuid);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -175,12 +178,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                         }
                         Helper.goTo(context, PlaceDetailActivity.class, Constants.PLACE, place);
                     } else {
-//                        Helper.makeSnackBar(rlPlaceDetails, getString(R.string.No_reports_found));
-                        Log.e(TAG, "No  place found");
-
+                        Log.e(TAG, "No place found");
                     }
                 } else {
-//                    Helper.makeSnackBar(rlPlaceDetails, getString(R.string.Failed_to_load_reports_Try_again_));
                     Log.e(TAG, "Get Reports Error: " + response.code());
                 }
             }
@@ -189,9 +189,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 DialogUtils.dismissDialog();
                 Log.e(TAG, "Get Reports Failure: ", t);
-//                Helper.makeSnackBar(rlPlaceDetails, context.getString(R.string.Network_error_Try_again));
             }
         });
     }
-
 }

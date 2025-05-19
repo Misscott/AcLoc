@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ieslamar.acloc.R;
 import com.example.acloc.activity.ManageRolesActivity;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.User;
+import com.example.acloc.service.UserService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -126,9 +126,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         userBody.addProperty("role", fkRole);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.updateRole(token, uuid, userBody);
+        // Using the new UserService through LocationApiClient
+        UserService userService = LocationApiClient.getInstance().getUserService();
+        Call<JsonObject> call = userService.updateRole(token, uuid, userBody);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

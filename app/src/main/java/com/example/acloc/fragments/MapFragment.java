@@ -28,8 +28,9 @@ import android.widget.RelativeLayout;
 import com.ieslamar.acloc.R;
 import com.example.acloc.activity.AddNewPlaceActivity;
 import com.example.acloc.activity.PlaceDetailActivity;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
+import com.example.acloc.service.PlaceService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
@@ -54,9 +55,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class MapFragment extends Fragment {
     public static final String TAG = MapFragment.class.getSimpleName();
@@ -170,15 +168,6 @@ public class MapFragment extends Fragment {
                 if (existingPlace != null) {
                     Helper.goTo(getContext(), PlaceDetailActivity.class, Constants.PLACE, existingPlace); //Navigate to PlaceDetailActivity if the place already exists
                     return;
-//
-//                    dialog = new AlertViewAddNewPlaceDialog(requireContext(),
-//                            Double.parseDouble(existingPlace.getLatitude()),
-//                            Double.parseDouble(existingPlace.getLongitude()),
-//                            existingPlace.getName(),
-//                            existingPlace.getAddress(),
-//                            existingPlace.getDescription(),
-//                            existingPlace.getUuid())
-//                            .openPlaceDialog();
                 } else {
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -186,15 +175,6 @@ public class MapFragment extends Fragment {
                             Address address = addressList.get(0);
                             String addressLine = address.getAddressLine(0);
                             String placeName = address.getFeatureName();
-
-//                            dialog = new AlertViewAddNewPlaceDialog(requireContext(),
-//                                    latLng.latitude,
-//                                    latLng.longitude,
-//                                    placeName,
-//                                    addressLine,
-//                                    "",      // Empty description
-//                                    null     // UUID
-//                            ).openPlaceDialog();
 
                             Place placeEntity = new Place();
                             placeEntity.setLatitude(String.valueOf(latLng.latitude));
@@ -261,9 +241,6 @@ public class MapFragment extends Fragment {
 
     private void showNearbyPlaces(LatLng latLng) {
         googleMap.clear();
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(latLng)
-//                .title("You are here"));
     }
 
     private void searchLocationByAddress(String address) {
@@ -317,13 +294,8 @@ public class MapFragment extends Fragment {
     private void fetchAndShowAllPlaces() {
         String token = "Bearer " + SharedPref.getAccessToken(context); // get saved token
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://locationapi-m13l.onrender.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call<ResponseBody> call = apiService.getAllPlaces(token);
+        PlaceService placeService = LocationApiClient.getInstance().getPlaceService();
+        Call<ResponseBody> call = placeService.getAllPlaces(token);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

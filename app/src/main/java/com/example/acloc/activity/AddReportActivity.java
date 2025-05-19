@@ -18,10 +18,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
 import com.example.acloc.model.Report;
+import com.example.acloc.service.ReportService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -29,7 +29,6 @@ import com.example.acloc.utility.SharedPref;
 import com.ieslamar.acloc.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
-
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,16 +94,6 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         if (placeEntity != null) {
             place_uuid = placeEntity.getUuid();
             etPlaceName.setText(placeEntity.getName()); //Just to display place name in report
-//            Log.d(TAG,
-//                    "PLACE ENTITY DATA \n   " +
-//                            "Place uuid: " + placeEntity.getUuid() + "\n " +
-//                            "Place name: " + placeEntity.getName() + "\n " +
-//                            "Place address: " + placeEntity.getAddress() + "\n " +
-//                            "Place created by: " + placeEntity.getCreatedBy() + "\n " +
-//                            "Place latitude: " + placeEntity.getLatitude() + "\n " +
-//                            "Place longitude: " + placeEntity.getLongitude() + "\n " +
-//                            "Place description: " + placeEntity.getDescription() + "\n "
-//            );
         }
 
         reportEntity = (Report) getIntent().getSerializableExtra(Constants.REPORT);
@@ -265,9 +254,10 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         reportBody.addProperty("createdBy", createdBy);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.insertReport(token, reportBody);
+        ReportService reportService = LocationApiClient.getInstance().getReportService();
+        Call<JsonObject> call = reportService.insertReport(token, reportBody);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -283,10 +273,6 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
                         rlAddReport.postDelayed(() -> {
                             finish();
                         }, 500);
-                        // Delay .5 sec
-//                        rlAddReport.postDelayed(() -> {
-//                            Helper.goToAndFinish(AddReportActivity.this, MainActivity.class);
-//                        }, 500);
                     } else {
                         Log.d(TAG, "Failed to extract report UUID.");
                         Helper.makeSnackBar(rlAddReport, getString(R.string.Something_went_wrong_Try_again));
@@ -319,9 +305,11 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         reportBody.addProperty("createdBy", createdBy);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<JsonObject> call = apiService.updateReport(token, uuid, reportBody);
+        // Using the new ReportService through LocationApiClient
+        ReportService reportService = LocationApiClient.getInstance().getReportService();
+        Call<JsonObject> call = reportService.updateReport(token, uuid, reportBody);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -344,5 +332,4 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
-
 }

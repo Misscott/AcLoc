@@ -13,8 +13,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.ieslamar.acloc.R;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
+import com.example.acloc.service.AuthService;
+import com.example.acloc.service.UserService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
@@ -107,8 +108,8 @@ public class AlertChangePasswordDialog implements View.OnClickListener {
         loginBody.addProperty("username", username);
         loginBody.addProperty("password", oldPassword);
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<JsonObject> call = apiService.verifyOldPassword(loginBody);
+        AuthService authService = LocationApiClient.getInstance().getAuthService();
+        Call<JsonObject> call = authService.verifyOldPassword(loginBody);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -140,8 +141,8 @@ public class AlertChangePasswordDialog implements View.OnClickListener {
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<JsonObject> call = apiService.changePassword(token, uuid, body);
+        UserService userService = LocationApiClient.getInstance().getUserService();
+        Call<JsonObject> call = userService.changePassword(token, uuid, body);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

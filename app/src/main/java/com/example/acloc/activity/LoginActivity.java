@@ -12,9 +12,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.acloc.MainActivity;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.User;
+import com.example.acloc.service.AuthService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
@@ -130,8 +130,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         jsonParam.addProperty("username", entity.getUsername());
         jsonParam.addProperty("password", entity.getPassword());
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<JsonObject> call = apiService.loginUser(jsonParam);
+        AuthService authService = LocationApiClient.getInstance().getAuthService();
+        Call<JsonObject> call = authService.loginUser(jsonParam);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -182,7 +182,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                     } catch (IOException e) {
                         Log.e(TAG, "Login error reading response", e);
-//                        Helper.makeSnackBar(rlLogin, getString(R.string.Something_went_wrong));
                         Helper.makeSnackBar(rlLogin, e.toString() + " Try again");
                     }
                 }
@@ -192,10 +191,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 DialogUtils.dismissDialog();
                 Log.e(TAG, "Login API call failed", t);
-//                Helper.makeSnackBar(rlLogin, getString(R.string.Something_went_wrong));
                 Helper.makeSnackBar(rlLogin, "Server error: " + t.toString() + " Try again");
             }
         });
     }
-
 }

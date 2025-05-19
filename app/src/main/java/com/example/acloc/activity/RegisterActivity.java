@@ -12,9 +12,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ieslamar.acloc.R;
-import com.example.acloc.api.ApiClient;
-import com.example.acloc.interfaces.ApiService;
+import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.User;
+import com.example.acloc.service.AuthService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
@@ -116,8 +116,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         jsonParam.addProperty("password", entity.getPassword());
         jsonParam.addProperty("fk_role", Constants.ADMIN); //Default Admin for now (BUT acc to api it will be Viewer)
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<JsonObject> call = apiService.registerUser(jsonParam);
+        AuthService authService = LocationApiClient.getInstance().getAuthService();
+        Call<JsonObject> call = authService.registerUser(jsonParam);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -145,12 +145,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             Log.e(TAG, "Error Response: " + errorBody);
                             Helper.makeSnackBar(rlRegister, "Server Error " + errorBody + " Try again");
                         } else {
-//                            Helper.makeSnackBar(rlRegister, getString(R.string.Something_went_wrong));
                             Helper.makeSnackBar(rlRegister, "Server Error " + " Try again");
                         }
                     } catch (IOException e) {
                         Log.e(TAG, "Error reading errorBody", e);
-//                        Helper.makeSnackBar(rlRegister, getString(R.string.Something_went_wrong));
                         Helper.makeSnackBar(rlRegister, "API Failure: " + e.toString() + " Try again");
                     }
                 }
@@ -160,10 +158,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 DialogUtils.dismissDialog();
                 Log.e(TAG, "API Failure", t);
-//                Helper.makeSnackBar(rlRegister, getString(R.string.Something_went_wrong));
                 Helper.makeSnackBar(rlRegister, "API Failure: " + t.toString() + " Try again");
             }
-
         });
     }
 }
