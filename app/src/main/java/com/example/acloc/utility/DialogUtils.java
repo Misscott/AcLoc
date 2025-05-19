@@ -16,6 +16,11 @@ import com.example.acloc.activity.LoginActivity;
 public class DialogUtils {
     private static Dialog dialog;
 
+    /**
+     * Shows a loading dialog with a custom message.
+     * @param context
+     * @param message
+     */
     public static void showLoadingDialog(Context context, String message) {
         if (dialog != null && dialog.isShowing()) {
             return;
@@ -33,6 +38,9 @@ public class DialogUtils {
         dialog.show();
     }
 
+    /**
+     * Dismisses the loading dialog if it is currently showing.
+     */
     public static void dismissDialog() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
@@ -40,6 +48,11 @@ public class DialogUtils {
         }
     }
 
+    /**
+     * Shows a logout confirmation dialog.
+     * @param context
+     * @return
+     */
     public static AlertDialog logoutDialog(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -70,6 +83,13 @@ public class DialogUtils {
 //        return builder.create();
 //    }
 
+    /**
+     * Shows a confirmation dialog with a custom message.
+     * @param context
+     * @param confirmationText
+     * @param onDeleteClickListener
+     * @return
+     */
     public static AlertDialog confirmationDialog(final Context context, String confirmationText
             , DialogInterface.OnClickListener onDeleteClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
