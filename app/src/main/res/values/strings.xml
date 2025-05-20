@@ -48,7 +48,7 @@
     <string name="Place_Description">Place Description</string>
     <string name="Enter_Description">Enter Description</string>
     <string name="Report_Description">Report Description</string>
-    <string name="Report">Report</string>
+    <string name="Report">Reports</string>
     <string name="Search_User">Search User</string>
     <string name="User">User</string>
     <string name="Role">Role</string>
@@ -152,7 +152,6 @@
     <!--        <string name="Logout">Logout</string>-->
 
 
-    <string name="google_maps_api_key">AIzaSyCzcuZhHd-GqadewAiCbh4NuaBhO2AcPOY</string>
     <string name="add_new_location">Add New Location</string>
     <string name="tap_to_add_photo">Tap to add photo</string>
     <string name="location_details">Location Details</string>
@@ -161,6 +160,14 @@
     <string name="how_would_you_rate_this_place">How would you rate the accessibility of this place?</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="expand">Expand</string>
+    <string name="address">Address</string>
+    <string name="description">Description</string>
+    <string name="edit">Edit</string>
+    <string name="recent_reports">Recent Reports</string>
+    <string name="no_reports_yet">No reports about this place yet</string>
+    <string name="details">Details</string>
+    <string name="add_to_favorites">Add to favorites</string>
 
 
 </resources>
