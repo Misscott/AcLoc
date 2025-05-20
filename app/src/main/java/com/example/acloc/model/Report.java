@@ -3,9 +3,9 @@ package com.example.acloc.model;
 import java.io.Serializable;
 
 public class Report implements Serializable {
-    String uuid, fkUser, fkPlace, fkReportType, description, createdBy;
-    String placeName, placeUuid;
-    int reportRating;
+    private String uuid, fkUser, fkPlace, fkReportType, description, created, createdBy;
+    private String placeName, placeUuid;
+    private int reportRating;
 
     public String getUuid() {
         return uuid;
@@ -46,7 +46,9 @@ public class Report implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public String getCreationDate(){
+        return created;
+    }
     public String getCreatedBy() {
         return createdBy;
     }
@@ -77,5 +79,8 @@ public class Report implements Serializable {
 
     public void setPlaceUuid(String placeUuid) {
         this.placeUuid = placeUuid;
+    }
+    public String getCreatedDate(){
+        return created;
     }
 }

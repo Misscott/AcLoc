@@ -86,16 +86,12 @@ public class MyReportsAdapter extends RecyclerView.Adapter<MyReportsAdapter.View
                     AlertDialog dialog = DialogUtils.confirmationDialog(
                             context,
                             confirmationText,
-                            (dialogInterface, i) -> {
-                                removeReport(report.getUuid());
-                            }
+                            (dialogInterface, i) -> removeReport(report.getUuid())
                     );
                     dialog.show();
                 });
 
-                holder.ivEdit.setOnClickListener(v -> {
-                    Helper.goTo(context, AddReportActivity.class, Constants.REPORT, report);
-                });
+                holder.ivEdit.setOnClickListener(v -> Helper.goTo(context, AddReportActivity.class, Constants.REPORT, report));
             }
         } catch (Exception e) {
             Log.e(TAG, "Error in MyReports Adapter", e);

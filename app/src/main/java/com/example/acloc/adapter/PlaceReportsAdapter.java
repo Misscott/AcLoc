@@ -26,6 +26,7 @@ public class PlaceReportsAdapter extends RecyclerView.Adapter<PlaceReportsAdapte
         this.context = context;
         this.reportList = reportList;
     }
+
     public void clearReports() {
         reportList.clear();
         notifyDataSetChanged();
@@ -60,14 +61,14 @@ public class PlaceReportsAdapter extends RecyclerView.Adapter<PlaceReportsAdapte
                 holder.tvDescription.setText(report.getDescription());
                 if (report.getReportRating() == 1) {
                     holder.tvRating.setText(context.getString(R.string.Rating_BAD));
-                    holder.ivRating.setImageResource(R.drawable.ic_thumbs_down);} else if (report.getReportRating() == 2) {
+                    holder.ivRating.setImageResource(R.drawable.ic_thumbs_down);
+                } else if (report.getReportRating() == 2) {
                     holder.tvRating.setText(context.getString(R.string.Rating_AVERAGE));
                     holder.ivRating.setImageResource(R.drawable.ic_thumb_up_average);
                 } else if (report.getReportRating() == 3) {
                     holder.tvRating.setText(context.getString(R.string.Rating_GOOD));
                     holder.ivRating.setImageResource(R.drawable.ic_thumbs_up);
                 }
-
             }
         } catch (Exception e) {
             Log.e(TAG, "Error in PlaceReportsAdapter", e);
