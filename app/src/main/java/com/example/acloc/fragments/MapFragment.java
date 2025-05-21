@@ -201,17 +201,41 @@ public class MapFragment extends Fragment {
             }
         });
 
-        // Handle suggestion click
         lvSuggestions.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedAddress = suggestionsList.get(position);
-            etSearchLocation.setText(selectedAddress);
+            String selectedItem = suggestionsList.get(position);
+
+            // Check if this is the "Add new place" option
+            if (selectedItem.startsWith("➕ Add new place:")) {
+                String placeName = selectedItem.substring(selectedItem.indexOf("\"") + 1, selectedItem.lastIndexOf("\""));
+                etSearchLocation.setText(placeName);
+
+                // Get current map center as the location for the new place
+                LatLng center = googleMap.getCameraPosition().target;
+
+                Place newPlace = new Place();
+                newPlace.setLatitude(String.valueOf(center.latitude));
+                newPlace.setLongitude(String.valueOf(center.longitude));
+                newPlace.setName(placeName);
+                newPlace.setAddress(""); // Will be filled in AddNewPlaceActivity
+                newPlace.setDescription(""); // Empty description
+                newPlace.setUuid(null); // No UUID for new place
+
+                // Navigate to add new place activity
+                Helper.goTo(getContext(), AddNewPlaceActivity.class, Constants.PLACE, newPlace);
+
+                lvSuggestions.setVisibility(View.GONE);
+                return;
+            }
+
+            // Handle regular suggestion selection (existing code)
+            etSearchLocation.setText(selectedItem);
 
             // Get the corresponding Address object
             if (position < addressResults.size()) {
                 Address address = addressResults.get(position);
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-                // Zoom to the selected location
+                // zoom to selected location
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_ZOOM));
 
                 // Find the closest place
@@ -261,11 +285,17 @@ public class MapFragment extends Fragment {
                     addressResults.add(address);
                 }
 
-                suggestionsAdapter.notifyDataSetChanged();
-                lvSuggestions.setVisibility(View.VISIBLE);
+                // Add "Add new place" option if few results
+                if (addresses.size() < 3) {
+                    suggestionsList.add("➕ Add new place: \"" + query + "\"");
+                }
             } else {
-                lvSuggestions.setVisibility(View.GONE);
+                // No results found, add option to create new place
+                suggestionsList.add("➕ Add new place: \"" + query + "\"");
             }
+
+            suggestionsAdapter.notifyDataSetChanged();
+            lvSuggestions.setVisibility(View.VISIBLE);
         } catch (IOException e) {
             Log.e(TAG, "Error getting suggestions", e);
             lvSuggestions.setVisibility(View.GONE);
