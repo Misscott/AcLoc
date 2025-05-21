@@ -190,7 +190,7 @@
                                     android:contentDescription="Thumbs Up"
                                     android:focusable="true"
                                     android:padding="12dp"
-                                    app:tint="@color/green"
+                                    app:tint="?attr/colorOnBackground"
                                     android:src="@drawable/ic_thumb_up_border" />
                             </com.google.android.material.card.MaterialCardView>
 
@@ -234,7 +234,7 @@
                                     android:focusable="true"
                                     android:rotation="260"
                                     android:padding="12dp"
-                                    app:tint="@color/yellow"
+                                    app:tint="?attr/colorOnBackground"
                                     android:src="@drawable/ic_thumb_up_border" />
                             </com.google.android.material.card.MaterialCardView>
 
@@ -277,7 +277,7 @@
                                     android:contentDescription="Thumbs Down"
                                     android:focusable="true"
                                     android:padding="12dp"
-                                    app:tint="@color/red"
+                                    app:tint="?attr/colorOnBackground"
                                     android:src="@drawable/ic_thumb_down_border" />
                             </com.google.android.material.card.MaterialCardView>
 
