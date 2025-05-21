@@ -20,4 +20,6 @@
         <item name="colorTertiary">@color/colorTertiary_dark</item>
 
     </style>
+
+    <item name="bottom_sheet_peek_height" type="dimen">50%</item>
 </resources>

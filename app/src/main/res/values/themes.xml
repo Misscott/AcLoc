@@ -19,4 +19,18 @@
         <item name="backgroundColor">@color/backgroundColor_light</item>
         <item name="colorTertiary">@color/colorTertiary_light</item>
     </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="behavior_peekHeight">@dimen/bottom_sheet_peek_height</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_skipCollapsed">false</item>
+        <item name="behavior_fitToContents">false</item>
+    </style>
+
+    <item name="bottom_sheet_peek_height" type="dimen">50%</item>
 </resources>
