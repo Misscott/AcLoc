@@ -75,8 +75,27 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
             View bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
             if (bottomSheet != null) {
                 behavior = BottomSheetBehavior.from(bottomSheet);
+
+                //Set initial state to half expanded
                 behavior.setPeekHeight(getResources().getDisplayMetrics().heightPixels / 2);
                 behavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+
+                //Add callback to update expand/collapse icon
+                behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                    @Override
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            ivExpand.setImageResource(R.drawable.ic_expand_more);
+                        } else {
+                            ivExpand.setImageResource(R.drawable.ic_expand_less);
+                        }
+                    }
+
+                    @Override
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                        // animation based on slide position - do nothing for now
+                    }
+                });
             }
         });
 
@@ -109,7 +128,6 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         btnAddReport = view.findViewById(R.id.btnAddReport);
         rvReports = view.findViewById(R.id.rvReports);
 
-        // Set up RecyclerView
         rvReports.setLayoutManager(new LinearLayoutManager(context));
     }
 
@@ -175,14 +193,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                         reportList.clear();
 
                         for (JsonElement element : data.getAsJsonArray("reports")) {
-                            JsonObject reportObject = element.getAsJsonObject();
-                            Report report = new Report();
-
-                            report.setUuid(reportObject.get("uuid").getAsString());
-                            report.setReportRating(reportObject.get("rating").getAsInt());
-                            report.setDescription(reportObject.get("description").getAsString());
-                            report.setPlaceName(reportObject.get("place_name").getAsString());
-                            report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+                            Report report = getReport(element);
 
                             reportList.add(report);
                         }
@@ -206,6 +217,18 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                 showNoReports();
             }
         });
+    }
+
+    private static @NonNull Report getReport(JsonElement element) {
+        JsonObject reportObject = element.getAsJsonObject();
+        Report report = new Report();
+
+        report.setUuid(reportObject.get("uuid").getAsString());
+        report.setReportRating(reportObject.get("rating").getAsInt());
+        report.setDescription(reportObject.get("description").getAsString());
+        report.setPlaceName(reportObject.get("place_name").getAsString());
+        report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+        return report;
     }
 
     private void updateReportsUI(List<Report> reports) {
@@ -277,7 +300,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         String token = "Bearer " + SharedPref.getAccessToken(context);
         FavoriteService favoriteService = LocationApiClient.getInstance().getFavoriteService();
 
-        Call<JsonObject> call = favoriteService.restorePlaceToFavorites(token, userUuid, body);
+        Call<JsonObject> call = favoriteService.addPlaceToFavorites(token, userUuid, body);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -291,8 +314,8 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                         if (response.errorBody() != null) {
                             String errorBody = response.errorBody().string();
 
-                            // Try restoring if it's a duplicate (409 Conflict)
-                            if (response.code() == 409 && errorBody.contains("ER_DUP_ENTRY")) {
+                            // Try restoring if it's a duplicate (409 Conflict) or it isn't found (deleted)
+                            if ((response.code() == 409 && errorBody.contains("ER_DUP_ENTRY"))|| response.code() == 404 ) {
                                 restorePlaceToFavorites(userUuid, placeUuid);
                                 return;
                             }
