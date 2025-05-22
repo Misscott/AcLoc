@@ -170,6 +170,10 @@
     <string name="response_parsing_error">Error de análisis</string>
     <string name="no_places_found_near_this_location">Ningún lugar encontrado cerca de esta dirección</string>
     <string name="location_not_found">Lugar no encontrado</string>
+    <string name="invalid_email_address">Dirección de correo no válida</string>
+    <string name="please">Por favor</string>
+    <string name="empty">Vacío</string>
+    <string name="password_validation_requirement">La contraseña debe tener al menos 6 caracteres, incluir 1 mayúscula, 1 minúscula, 1 dígito y 1 carácter especial.</string>
 
 
 </resources>

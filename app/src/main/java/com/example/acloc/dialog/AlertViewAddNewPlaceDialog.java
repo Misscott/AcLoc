@@ -115,7 +115,7 @@ public class AlertViewAddNewPlaceDialog implements View.OnClickListener {
 
     private void onClickBtnSubmit() {
         View[] views = {etPlaceName, etLatitude, etLongitude, etAddress, etPlaceDescription};
-        if (Helper.isEmptyFieldValidation(views)) {
+        if (Helper.isEmptyFieldValidation(context, views)) {
             setInputDataToEntity();
 
             if (place_uuid != null && !place_uuid.isEmpty()) {

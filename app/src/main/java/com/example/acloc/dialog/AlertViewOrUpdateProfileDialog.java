@@ -115,7 +115,7 @@ public class AlertViewOrUpdateProfileDialog implements View.OnClickListener {
 
     private void onClickBtnUpdate() {
         View[] views = {etUsername, etEmail};
-        if (Helper.isEmptyFieldValidation(views) && Helper.isEmailValid(etEmail)) {
+        if (Helper.isEmptyFieldValidation(context, views) && Helper.isEmailValid(context, etEmail)) {
             setInputDataToEntity();
             String uuid = SharedPref.getUserUid(context);
             updateUserWithRetrofit(uuid, entity.getUsername(), entity.getEmail());

@@ -91,7 +91,7 @@ public class AlertChangePasswordDialog implements View.OnClickListener {
 
     private void onClickBtnUpdate() {
         View[] views = {etOldPassword, etNewPassword};
-        if (Helper.isEmptyFieldValidation(views) && Helper.isPasswordValid(etNewPassword)) {
+        if (Helper.isEmptyFieldValidation(context, views) && Helper.isPasswordValid(context, etNewPassword)) {
             String username = SharedPref.getUserName(context);
             String oldPassword = Helper.getStringFromInput(etOldPassword);
             String newPassword = Helper.getStringFromInput(etNewPassword);

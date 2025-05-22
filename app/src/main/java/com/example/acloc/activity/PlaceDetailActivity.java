@@ -78,7 +78,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         super.onResume();
         if (adapter != null) {
             setDataVisibility(false);
-            adapter.clearReports(); // Safe way to clear and notify
+            adapter.clearReports(); // clear and notify
         }
 
         if (context != null) loadData();

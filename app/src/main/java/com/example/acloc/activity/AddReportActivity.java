@@ -2,7 +2,6 @@ package com.example.acloc.activity;
 
 import static com.example.acloc.utility.Constants.BASE_URL;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -273,7 +272,7 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
 
     private void onClickBtnSubmit() {
         View[] views = {etPlaceName, etDescription};
-        if (Helper.isEmptyFieldValidation(views) && isValidateRating()) {
+        if (Helper.isEmptyFieldValidation(context, views) && isValidateRating()) {
             setInputDataToEntity();
 
             if (report_uuid != null && !report_uuid.isEmpty()) {

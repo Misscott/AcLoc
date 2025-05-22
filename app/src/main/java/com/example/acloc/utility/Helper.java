@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ieslamar.acloc.R;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -49,17 +50,6 @@ public class Helper {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
 
-        // No need to finish explicitly here, flags handle it
-        if (context instanceof Activity) {
-            ((Activity) context).finish();
-        }
-    }
-
-    public static void goToAndFinish(Context context, Class<?> activity, String key, Serializable object) {
-        Intent intent = new Intent(context, activity);
-        intent.putExtra(key, object);
-        context.startActivity(intent);
-
         if (context instanceof Activity) {
             ((Activity) context).finish();
         }
@@ -73,6 +63,16 @@ public class Helper {
 //        if (context instanceof Activity) {
 //            ((Activity) context).finish();
 //        }
+    }
+
+    public static void goToAndFinish(Context context, Class<?> activity, String key, Serializable object) {
+        Intent intent = new Intent(context, activity);
+        intent.putExtra(key, object);
+        context.startActivity(intent);
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
     }
 
     public static int getIntValueFromString(String value) {
@@ -137,7 +137,7 @@ public class Helper {
         return isValidate;
     }
 
-    public static boolean isEmptyFieldValidation(View[] inputFields) {
+    public static boolean isEmptyFieldValidation(Context context, View[] inputFields) {
         boolean isValidate = true;
         try {
             for (View view : inputFields) {
@@ -156,13 +156,13 @@ public class Helper {
 
                 if (inputText.isEmpty()) {
                     if (textInputLayout != null) {
-                        textInputLayout.setError("Please " + textInputLayout.getHint());
+                        textInputLayout.setError(context.getString(R.string.please) +" "+ textInputLayout.getHint());
                         textInputLayout.setErrorEnabled(true);
                     } else {
                         if (view instanceof TextInputEditText) {
-                            ((TextInputEditText) view).setError("Empty");
+                            ((TextInputEditText) view).setError(context.getString(R.string.empty));
                         } else if (view instanceof MaterialAutoCompleteTextView) {
-                            ((MaterialAutoCompleteTextView) view).setError("Empty");
+                            ((MaterialAutoCompleteTextView) view).setError(context.getString(R.string.empty));
                         }
                     }
                     isValidate = false;
@@ -185,7 +185,7 @@ public class Helper {
         return isValidate;
     }
 
-    public static boolean isEmailValid(View emailView) {
+    public static boolean isEmailValid(Context context, View emailView) {
         boolean isValidate = true;
         try {
             TextInputLayout textInputLayout = null;
@@ -204,13 +204,13 @@ public class Helper {
             // Regex for email validation
             if (!emailText.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
                 if (textInputLayout != null) {
-                    textInputLayout.setError("Invalid Email Address");
+                    textInputLayout.setError(context.getString(R.string.invalid_email_address));
                     textInputLayout.setErrorEnabled(true);
                 } else {
                     if (emailView instanceof TextInputEditText) {
-                        ((TextInputEditText) emailView).setError("Invalid Email Address");
+                        ((TextInputEditText) emailView).setError(context.getString(R.string.invalid_email_address));
                     } else if (emailView instanceof MaterialAutoCompleteTextView) {
-                        ((MaterialAutoCompleteTextView) emailView).setError("Invalid Email Address");
+                        ((MaterialAutoCompleteTextView) emailView).setError(context.getString(R.string.invalid_email_address));
                     }
                 }
                 isValidate = false;
@@ -232,7 +232,7 @@ public class Helper {
         return isValidate;
     }
 
-    public static boolean isPasswordValid(View passwordView) {
+    public static boolean isPasswordValid(Context context, View passwordView) {
         boolean isValidate = true;
         try {
             TextInputLayout textInputLayout = null;
@@ -253,13 +253,13 @@ public class Helper {
 
             if (!passwordText.matches(passwordPattern)) {
                 if (textInputLayout != null) {
-                    textInputLayout.setError("Password must be at least 6 characters, include 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
+                    textInputLayout.setError(context.getString(R.string.password_validation_requirement));
                     textInputLayout.setErrorEnabled(true);
                 } else {
                     if (passwordView instanceof TextInputEditText) {
-                        ((TextInputEditText) passwordView).setError("Password must be at least 6 characters, include 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
+                        ((TextInputEditText) passwordView).setError(context.getString(R.string.password_validation_requirement));
                     } else if (passwordView instanceof MaterialAutoCompleteTextView) {
-                        ((MaterialAutoCompleteTextView) passwordView).setError("Password must be at least 6 characters, include 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
+                        ((MaterialAutoCompleteTextView) passwordView).setError(context.getString(R.string.password_validation_requirement));
                     }
                 }
                 isValidate = false;

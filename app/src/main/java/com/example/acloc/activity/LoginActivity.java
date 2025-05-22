@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Helper.goTo(this, MainActivity.class);
             finish();
         } else {
-            // Optionally force logout if token expired
+            // force logout if token expired
             SharedPref.setIsLoggedIn(this, false);
             SharedPref.setAccessToken(this, ""); // clear token
             setContentView(R.layout.activity_login);
@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void onClickBtnLogin() {
         View[] views = {etUsername, etPassword};
-        if (Helper.isEmptyFieldValidation(views)) {
+        if (Helper.isEmptyFieldValidation(context, views)) {
             setInputDataToEntity();
             loginUserWithRetrofit();
         }

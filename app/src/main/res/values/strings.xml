@@ -173,6 +173,10 @@
     <string name="response_parsing_error">Response parsing error</string>
     <string name="no_places_found_near_this_location">No places found near this location</string>
     <string name="location_not_found">Location not found</string>
+    <string name="invalid_email_address">Invalid email address</string>
+    <string name="please">Please</string>
+    <string name="empty">Empty</string>
+    <string name="password_validation_requirement">Password must be at least 6 characters, include 1 uppercase, 1 lowercase, 1 digit, and 1 special character.</string>
 
 
 </resources>
