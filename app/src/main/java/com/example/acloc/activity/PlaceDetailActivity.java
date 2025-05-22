@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -144,11 +145,25 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                 try {
                     JSONArray array = new JSONArray(rawImg);
                     String imageUrl = array.getString(0); // Get first element in the array
-                    Picasso.get().load(imageUrl).into(ivPlacePhoto);
+                    Picasso.get()
+                            .load(imageUrl)
+                            .into(ivPlacePhoto, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Picasso.get().load(imageUrl).into(ivPlacePhoto);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    // Error loading image 404 -- load default
+                                    Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
+                                }
+                            });
                 } catch (JSONException e) {
                     Log.e(TAG, "ERROR: " + e.toString());
+                    Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
                 }
-            } else {
+            } else { //if image is null
                 Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
             }
             Log.d(TAG,
@@ -413,14 +428,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                         reportList.clear(); // Clear previous list
 
                         for (JsonElement element : data.getAsJsonArray("reports")) {
-                            JsonObject reportObject = element.getAsJsonObject();
-                            Report report = new Report();
-
-                            report.setUuid(reportObject.get("uuid").getAsString());
-                            report.setReportRating(reportObject.get("rating").getAsInt());
-                            report.setDescription(reportObject.get("description").getAsString());
-                            report.setPlaceName(reportObject.get("place_name").getAsString());
-                            report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+                            Report report = getReport(element);
 
                             reportList.add(report);
                         }
@@ -448,5 +456,17 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                 Helper.makeSnackBar(rlPlaceDetails, context.getString(R.string.Network_error_Try_again));
             }
         });
+    }
+
+    private static @NonNull Report getReport(JsonElement element) {
+        JsonObject reportObject = element.getAsJsonObject();
+        Report report = new Report();
+
+        report.setUuid(reportObject.get("uuid").getAsString());
+        report.setReportRating(reportObject.get("rating").getAsInt());
+        report.setDescription(reportObject.get("description").getAsString());
+        report.setPlaceName(reportObject.get("place_name").getAsString());
+        report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+        return report;
     }
 }

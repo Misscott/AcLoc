@@ -131,16 +131,31 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         etLongitude.setText(entity.getLongitude());
         etAddress.setText(entity.getAddress());
         etPlaceDescription.setText(entity.getDescription());
+
         if (entity.getImage() != null && !entity.getImage().isEmpty()) {
             String rawImg = entity.getImage();
             try {
                 JSONArray array = new JSONArray(rawImg);
                 String imageUrl = array.getString(0); // Get first element in the array
-                Picasso.get().load(imageUrl).into(ivPlacePhoto);
+                Picasso.get()
+                        .load(imageUrl)
+                        .into(ivPlacePhoto, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Picasso.get().load(imageUrl).into(ivPlacePhoto);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                // Error loading image 404 -- load default
+                                Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
+                            }
+                        });
             } catch (JSONException e) {
                 Log.e(TAG, "ERROR: " + e.toString());
+                Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
             }
-        } else {
+        } else { //if image is null
             Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
         }
     }
