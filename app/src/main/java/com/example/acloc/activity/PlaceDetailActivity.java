@@ -20,7 +20,6 @@ import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
 import com.example.acloc.model.Report;
 import com.example.acloc.service.FavoriteService;
-import com.example.acloc.service.PlaceService;
 import com.example.acloc.service.ReportService;
 import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
@@ -140,7 +139,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
             etPlaceName.setText(placeEntity.getName());
             etAddress.setText(placeEntity.getAddress());
             etPlaceDescription.setText(placeEntity.getDescription());
-            if (placeEntity.getImage() != null || placeEntity.getImage() != "") {
+            if (placeEntity.getImage() != null && !placeEntity.getImage().isEmpty()) {
                 String rawImg = placeEntity.getImage();
                 try {
                     JSONArray array = new JSONArray(rawImg);
@@ -212,7 +211,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void onClickBtnEdit() {
-        Helper.goTo(context, AddNewPlaceActivity.class, Constants.PLACE, placeEntity);
+        Helper.goToAndFinish(context, AddNewPlaceActivity.class, Constants.PLACE, placeEntity);
     }
 
     private void onClickBtnSubmit() {

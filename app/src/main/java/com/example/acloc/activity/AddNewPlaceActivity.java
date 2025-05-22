@@ -99,6 +99,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
     private void loadIntentData() {
         entity = (Place) getIntent().getSerializableExtra(Constants.PLACE);
         place_uuid = entity.getUuid(); // setting place uuid first
+        jsonString = entity.getImage();
         if (entity != null) {
             Log.d(TAG,
                     "PLACE ENTITY DATA \n   " +
@@ -130,7 +131,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         etLongitude.setText(entity.getLongitude());
         etAddress.setText(entity.getAddress());
         etPlaceDescription.setText(entity.getDescription());
-        if (entity.getImage() != null || !Objects.equals(entity.getImage(), "")) {
+        if (entity.getImage() != null && !entity.getImage().isEmpty()) {
             String rawImg = entity.getImage();
             try {
                 JSONArray array = new JSONArray(rawImg);
@@ -308,8 +309,21 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
                 DialogUtils.dismissDialog();
                 if (response.isSuccessful()) {
                     Helper.makeSnackBar(rlAddPlace, getString(R.string.Place_updated_successfully));
+
+                    if (entity != null) {
+                        entity.setUuid(uuid);
+                        entity.setName(name);
+                        entity.setDescription(description);
+                        entity.setAddress(address);
+                        entity.setLatitude(latitude);
+                        entity.setLongitude(longitude);
+                        entity.setCreatedBy(createdBy);
+                        entity.setImage(jsonString);
+                    }
+
                     rlAddPlace.postDelayed(() -> {
-                        finish();
+                        Helper.goToAndFinish(context, PlaceDetailActivity.class, Constants.PLACE, entity);
+//                        finish();
                     }, 500);
                 } else {
                     Helper.makeSnackBar(rlAddPlace, getString(R.string.Update_failed_Server_error_Try_again));

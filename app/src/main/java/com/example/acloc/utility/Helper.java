@@ -55,6 +55,16 @@ public class Helper {
         }
     }
 
+    public static void goToAndFinish(Context context, Class<?> activity, String key, Serializable object) {
+        Intent intent = new Intent(context, activity);
+        intent.putExtra(key, object);
+        context.startActivity(intent);
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
+    }
+
     public static void goTo(Context context, Class<?> activity, String key, Serializable object) {
         Intent intent = new Intent(context, activity);
         intent.putExtra(key, object);
