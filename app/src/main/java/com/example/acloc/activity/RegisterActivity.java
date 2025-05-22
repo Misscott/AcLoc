@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void onClickBtnRegister() {
         View[] views = {etName, etEmail, etPassword};
-        if (Helper.isEmptyFieldValidation(views) && Helper.isEmailValid(etEmail) && Helper.isPasswordValid(etPassword)) {
+        if (Helper.isEmptyFieldValidation(context, views) && Helper.isEmailValid(context, etEmail) && Helper.isPasswordValid(context, etPassword)) {
             setInputDataToEntity();
             registerUserWithRetrofit();
         }
