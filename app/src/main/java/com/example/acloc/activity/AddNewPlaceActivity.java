@@ -1,5 +1,7 @@
 package com.example.acloc.activity;
 
+import static com.example.acloc.utility.Constants.BASE_URL;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.acloc.utility.UploadManager;
 import com.ieslamar.acloc.R;
 import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
@@ -26,6 +29,10 @@ import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +52,10 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
     private Place entity;
     private String place_uuid;
     private static final int PICK_IMAGE_REQUEST = 200;
+
+    private Uri selectedImageUri;
+    private String imageUrl;
+    private String JSonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,12 +151,42 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the image URI
-            Uri selectedImageUri = data.getData();
+            selectedImageUri = data.getData();
 
-            // Set the image in the ImageView
-            ivPlacePhoto.setImageURI(selectedImageUri);
+            // Load image using Picasso
+            Picasso.get().load(selectedImageUri).into(ivPlacePhoto);
+
+            // Upload the image
+            uploadImageToServer(selectedImageUri);
         }
+    }
+
+    private void uploadImageToServer(Uri imageUri) {
+        UploadManager.uploadImage(this, imageUri, new UploadManager.UploadCallback() {
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    if (json.getBoolean("success")) {
+                        String filename = json.getJSONObject("file").getString("filename");
+                        imageUrl = BASE_URL + "public/" + filename;
+                        JSonString = "[\"" + imageUrl + "\"]";
+                        Helper.makeSnackBar(rlAddPlace, "Image uploaded successfully");
+                        Log.d(TAG, "JsonString: " + JSonString);
+                    } else {
+                        Helper.makeSnackBar(rlAddPlace, "Upload failed");
+                    }
+                } catch (JSONException e) {
+                    Helper.makeSnackBar(rlAddPlace, "Response parsing error");
+                    Log.e(TAG, "Failed to parse JSON", e);
+                }
+            }
+            @Override
+            public void onError(String message) {
+                Helper.makeSnackBar(rlAddPlace, "Upload failed: " + message);
+                Log.e(TAG, "Upload error:" + message);
+            }
+        });
     }
 
     private void onClickBtnSubmit() {
@@ -186,6 +227,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         placeBody.addProperty("latitude", latitude);
         placeBody.addProperty("longitude", longitude);
         placeBody.addProperty("createdBy", createdBy);
+        placeBody.addProperty("images", JSonString);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
 

@@ -1,20 +1,14 @@
 package com.example.acloc.api;
 
-import static com.example.acloc.utility.Constants.BASE_URL;
-
 import com.example.acloc.service.AuthService;
 import com.example.acloc.service.FavoriteService;
 import com.example.acloc.service.PlaceService;
 import com.example.acloc.service.ReportService;
 import com.example.acloc.service.RoleService;
+import com.example.acloc.service.UploadService;
 import com.example.acloc.service.UserService;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Centralized API client that manages Retrofit instance and provides access to all service interfaces
@@ -30,6 +24,7 @@ public class LocationApiClient {
     private ReportService reportService;
     private RoleService roleService;
     private UserService userService;
+    private UploadService uploadService;
 
     // Private constructor for singleton pattern
     private LocationApiClient() {
@@ -111,5 +106,12 @@ public class LocationApiClient {
             userService = retrofit.create(UserService.class);
         }
         return userService;
+    }
+
+    public UploadService getUploadService(){
+        if(uploadService == null){
+            uploadService = retrofit.create(UploadService.class);
+        }
+        return uploadService;
     }
 }
