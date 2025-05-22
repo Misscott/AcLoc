@@ -176,6 +176,10 @@ public class MyReportsFragment extends Fragment implements View.OnClickListener 
                             report.setDescription(reportObject.get("description").getAsString());
                             report.setPlaceName(reportObject.get("place_name").getAsString());
                             report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+                            JsonElement imagesElement = reportObject.get("images");
+                            if (imagesElement != null && imagesElement.isJsonArray()) {
+                                report.setImage(String.valueOf(imagesElement.getAsJsonArray()));
+                            }
 
                             reportList.add(report);
                         }

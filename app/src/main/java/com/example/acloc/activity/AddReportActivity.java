@@ -1,5 +1,7 @@
 package com.example.acloc.activity;
 
+import static com.example.acloc.utility.Constants.BASE_URL;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,9 +28,15 @@ import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
+import com.example.acloc.utility.UploadManager;
 import com.ieslamar.acloc.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +51,6 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
     private ImageView ivThumbsUp, ivThumbsAverage, ivThumbsDown;
     private AppCompatButton btnSubmit;
     private Context context;
-    private Dialog dialog;
     private Place placeEntity;
     private Report reportEntity;
     private String report_type_uuid, place_uuid;
@@ -51,6 +58,10 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
     private String report_uuid;
 
     private static final int PICK_IMAGE_REQUEST = 100;
+
+    private Uri selectedImageUri;
+    private String imageUrl;
+    private String jsonString;
 
 
     @Override
@@ -127,6 +138,32 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
             ivThumbsAverage.setColorFilter(null);
             reportRating = Constants.GOOD_RATING; //3
         }
+        if (reportEntity.getImage() != null && !reportEntity.getImage().isEmpty()) {
+            String rawImg = reportEntity.getImage();
+            try {
+                JSONArray array = new JSONArray(rawImg);
+                String imageUrl = array.getString(0); // Get first element in the array
+                Picasso.get()
+                        .load(imageUrl)
+                        .into(ivReportPhoto, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Picasso.get().load(imageUrl).into(ivReportPhoto);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                // Error loading image 404 -- load default
+                                Picasso.get().load(R.drawable.logo_add_location).into(ivReportPhoto);
+                            }
+                        });
+            } catch (JSONException e) {
+                Log.e(TAG, "ERROR: " + e.toString());
+                Picasso.get().load(R.drawable.logo_add_location).into(ivReportPhoto);
+            }
+        } else { //if image is null
+            Picasso.get().load(R.drawable.logo_add_location).into(ivReportPhoto);
+        }
     }
 
     private void initListener() {
@@ -169,12 +206,48 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the image URI
-            Uri selectedImageUri = data.getData();
+            selectedImageUri = data.getData();
 
-            // Set the image in the ImageView
-            ivReportPhoto.setImageURI(selectedImageUri);
+            // Upload the image
+            uploadImageToServer(selectedImageUri);
+
+            // Load image using Picasso
+            Picasso.get().load(selectedImageUri).into(ivReportPhoto);
+
         }
+    }
+
+    private void uploadImageToServer(Uri imageUri) {
+        UploadManager.uploadImage(this, imageUri, new UploadManager.UploadCallback() {
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    if (json.getBoolean("success")) {
+                        String filename = json.getJSONObject("file").getString("filename");
+                        imageUrl = BASE_URL + "public/" + filename;
+                        jsonString = "[\"" + imageUrl + "\"]";
+                        Helper.makeSnackBar(rlAddReport, "Image uploaded successfully");
+                        btnSubmit.setClickable(true);
+                    } else {
+                        Helper.makeSnackBar(rlAddReport, "Upload failed");
+                        btnSubmit.setClickable(true);
+                    }
+                } catch (JSONException e) {
+                    Helper.makeSnackBar(rlAddReport, "Response parsing error");
+                    btnSubmit.setClickable(true);
+                    Log.d(TAG, "btnSubmit : TRUE");
+                    Log.e(TAG, "Failed to parse JSON", e);
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Helper.makeSnackBar(rlAddReport, "Upload failed: " + message);
+                Log.e(TAG, "Upload error:" + message);
+                btnSubmit.setClickable(true);
+            }
+        });
     }
 
     private void onClickThumbsUp() {
@@ -212,7 +285,8 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
                         SharedPref.getUserUid(context),
                         String.valueOf(reportEntity.getReportRating()),
                         reportEntity.getDescription(),
-                        reportEntity.getCreatedBy()
+                        reportEntity.getCreatedBy(),
+                        reportEntity.getImage()
                 );
             } else {
                 insertReportRetrofit(
@@ -220,7 +294,8 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
                         SharedPref.getUserUid(context),
                         String.valueOf(reportEntity.getReportRating()),
                         reportEntity.getDescription(),
-                        reportEntity.getCreatedBy()
+                        reportEntity.getCreatedBy(),
+                        reportEntity.getImage()
                 );
             }
         }
@@ -230,6 +305,7 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         reportEntity.setDescription(Helper.getStringFromInput(etDescription));
         reportEntity.setReportRating(reportRating);
         reportEntity.setCreatedBy(SharedPref.getUserUid(context));
+        reportEntity.setImage(jsonString);
     }
 
     private boolean isValidateRating() {
@@ -242,7 +318,7 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void insertReportRetrofit(String placeUuid, String userUuid, String rating,
-                                      String description, String createdBy) {
+                                      String description, String createdBy, String jsonString) {
 
         DialogUtils.showLoadingDialog(context, getString(R.string.Please_wait));
 
@@ -252,6 +328,7 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         reportBody.addProperty("rating", rating);
         reportBody.addProperty("description", description);
         reportBody.addProperty("createdBy", createdBy);
+        reportBody.addProperty("images", jsonString);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
 
@@ -293,7 +370,7 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void updateReportRetrofit(String uuid, String placeUuid, String userUuid, String rating,
-                                      String description, String createdBy) {
+                                      String description, String createdBy, String jsonString) {
 
         DialogUtils.showLoadingDialog(context, getString(R.string.Updating_report));
 
@@ -303,6 +380,7 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         reportBody.addProperty("rating", rating);
         reportBody.addProperty("description", description);
         reportBody.addProperty("createdBy", createdBy);
+        reportBody.addProperty("images", jsonString);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
 

@@ -172,6 +172,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void onClickIvPlacePhoto() {
+        btnSubmit.setClickable(false);
         // Open the gallery to select an image
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*"); // Restrict to images only
@@ -203,18 +204,25 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
                         imageUrl = BASE_URL + "public/" + filename;
                         jsonString = "[\"" + imageUrl + "\"]";
                         Helper.makeSnackBar(rlAddPlace, "Image uploaded successfully");
-                        Log.d(TAG, "JsonString: " + jsonString);
+                        btnSubmit.setClickable(true);
                     } else {
                         Helper.makeSnackBar(rlAddPlace, "Upload failed");
+                        btnSubmit.setClickable(true);
+                        Log.d(TAG, "btnSubmit : TRUE");
                     }
                 } catch (JSONException e) {
                     Helper.makeSnackBar(rlAddPlace, "Response parsing error");
+                    btnSubmit.setClickable(true);
+                    Log.d(TAG, "btnSubmit : TRUE");
                     Log.e(TAG, "Failed to parse JSON", e);
                 }
             }
+
             @Override
             public void onError(String message) {
                 Helper.makeSnackBar(rlAddPlace, "Upload failed: " + message);
+                btnSubmit.setClickable(true);
+                Log.d(TAG, "btnSubmit : TRUE");
                 Log.e(TAG, "Upload error:" + message);
             }
         });
