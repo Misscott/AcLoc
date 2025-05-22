@@ -203,17 +203,15 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
                         String filename = json.getJSONObject("file").getString("filename");
                         imageUrl = BASE_URL + "public/" + filename;
                         jsonString = "[\"" + imageUrl + "\"]";
-                        Helper.makeSnackBar(rlAddPlace, "Image uploaded successfully");
+                        Helper.makeSnackBar(rlAddPlace, getString(R.string.image_uploaded_successfully));
                         btnSubmit.setClickable(true);
                     } else {
-                        Helper.makeSnackBar(rlAddPlace, "Upload failed");
+                        Helper.makeSnackBar(rlAddPlace, getString(R.string.upload_failed));
                         btnSubmit.setClickable(true);
-                        Log.d(TAG, "btnSubmit : TRUE");
                     }
                 } catch (JSONException e) {
-                    Helper.makeSnackBar(rlAddPlace, "Response parsing error");
+                    Helper.makeSnackBar(rlAddPlace, getString(R.string.response_parsing_error));
                     btnSubmit.setClickable(true);
-                    Log.d(TAG, "btnSubmit : TRUE");
                     Log.e(TAG, "Failed to parse JSON", e);
                 }
             }
@@ -222,7 +220,6 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
             public void onError(String message) {
                 Helper.makeSnackBar(rlAddPlace, "Upload failed: " + message);
                 btnSubmit.setClickable(true);
-                Log.d(TAG, "btnSubmit : TRUE");
                 Log.e(TAG, "Upload error:" + message);
             }
         });

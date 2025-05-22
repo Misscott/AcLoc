@@ -450,11 +450,11 @@ public class MapFragment extends Fragment {
                 } else {
                     // No close places found
                     if (isAdded() && getContext() != null) {
-                        Helper.makeSnackBar(rlMap, "No places found near this location");
+                        Helper.makeSnackBar(rlMap, getString(R.string.no_places_found_near_this_location));
                     }
                 }
             } else {
-                Helper.makeSnackBar(rlMap, "Location not found");
+                Helper.makeSnackBar(rlMap, getString(R.string.location_not_found));
             }
         } catch (IOException e) {
             Log.d(TAG, getString(R.string.Something_went_wrong_Try_again));

@@ -227,16 +227,15 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
                         String filename = json.getJSONObject("file").getString("filename");
                         imageUrl = BASE_URL + "public/" + filename;
                         jsonString = "[\"" + imageUrl + "\"]";
-                        Helper.makeSnackBar(rlAddReport, "Image uploaded successfully");
+                        Helper.makeSnackBar(rlAddReport, getString(R.string.image_uploaded_successfully));
                         btnSubmit.setClickable(true);
                     } else {
-                        Helper.makeSnackBar(rlAddReport, "Upload failed");
+                        Helper.makeSnackBar(rlAddReport, getString(R.string.upload_failed));
                         btnSubmit.setClickable(true);
                     }
                 } catch (JSONException e) {
-                    Helper.makeSnackBar(rlAddReport, "Response parsing error");
+                    Helper.makeSnackBar(rlAddReport, getString(R.string.response_parsing_error));
                     btnSubmit.setClickable(true);
-                    Log.d(TAG, "btnSubmit : TRUE");
                     Log.e(TAG, "Failed to parse JSON", e);
                 }
             }
