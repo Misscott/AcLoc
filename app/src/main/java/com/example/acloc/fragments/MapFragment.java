@@ -446,7 +446,9 @@ public class MapFragment extends Fragment {
                     showPlaceBottomSheet(closestPlace);
                 } else {
                     // No close places found
-                    Helper.makeSnackBar(rlMap, "No places found near this location");
+                    if (isAdded() && getContext() != null) {
+                        Helper.makeSnackBar(rlMap, "No places found near this location");
+                    }
                 }
             } else {
                 Helper.makeSnackBar(rlMap, "Location not found");
