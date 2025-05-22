@@ -169,11 +169,11 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             selectedImageUri = data.getData();
 
-            // Load image using Picasso
-            Picasso.get().load(selectedImageUri).into(ivPlacePhoto);
-
             // Upload the image
             uploadImageToServer(selectedImageUri);
+
+            // Load image using Picasso
+            Picasso.get().load(selectedImageUri).into(ivPlacePhoto);
         }
     }
 
