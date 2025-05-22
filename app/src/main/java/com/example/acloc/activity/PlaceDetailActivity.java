@@ -30,6 +30,10 @@ import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
     public static final String TAG = PlaceDetailActivity.class.getSimpleName();
     private RelativeLayout rlPlaceDetails;
     private MaterialTextView etPlaceName, etAddress, etPlaceDescription;
-    private ImageView ivFavorite, ivEdit;
+    private ImageView ivFavorite, ivEdit, ivPlacePhoto;
     private AppCompatButton btnSubmit;
     private Dialog dialog;
     private Context context;
@@ -111,6 +115,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         etPlaceDescription = findViewById(R.id.etPlaceDescription);
         etAddress = findViewById(R.id.etAddress);
         ivFavorite = findViewById(R.id.ivFavorite);
+        ivPlacePhoto = findViewById(R.id.ivPlacePhoto);
         ivEdit = findViewById(R.id.ivEdit);
         btnSubmit = findViewById(R.id.btnSubmit);
         rvReports = findViewById(R.id.rvReports);
@@ -135,6 +140,18 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
             etPlaceName.setText(placeEntity.getName());
             etAddress.setText(placeEntity.getAddress());
             etPlaceDescription.setText(placeEntity.getDescription());
+            if (placeEntity.getImage() != null || placeEntity.getImage() != "") {
+                String rawImg = placeEntity.getImage();
+                try {
+                    JSONArray array = new JSONArray(rawImg);
+                    String imageUrl = array.getString(0); // Get first element in the array
+                    Picasso.get().load(imageUrl).into(ivPlacePhoto);
+                } catch (JSONException e) {
+                    Log.e(TAG, "ERROR: " + e.toString());
+                }
+            } else {
+                Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
+            }
             Log.d(TAG,
                     "Place uuid: " + placeEntity.getUuid() + "\n " +
                             "Place name: " + placeEntity.getName() + "\n " +
@@ -142,7 +159,8 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                             "Place created by: " + placeEntity.getCreatedBy() + "\n " +
                             "Place latitude: " + placeEntity.getLatitude() + "\n " +
                             "Place longitude: " + placeEntity.getLongitude() + "\n " +
-                            "Place description: " + placeEntity.getDescription() + "\n "
+                            "Place description: " + placeEntity.getDescription() + "\n " +
+                            "Place Photo: " + placeEntity.getImage() + "\n "
             );
         }
     }

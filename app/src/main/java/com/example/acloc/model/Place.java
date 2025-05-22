@@ -3,7 +3,7 @@ package com.example.acloc.model;
 import java.io.Serializable;
 
 public class Place implements Serializable {
-    String uuid, name, description, address, latitude, longitude, createdBy;
+    String uuid, name, description, address, latitude, longitude, createdBy, image;
 
     public String getUuid() {
         return uuid;
@@ -59,5 +59,13 @@ public class Place implements Serializable {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

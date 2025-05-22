@@ -31,8 +31,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +58,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
 
     private Uri selectedImageUri;
     private String imageUrl;
-    private String JSonString;
+    private String jsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,8 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
                             "Place created by: " + entity.getCreatedBy() + "\n " +
                             "Place latitude: " + entity.getLatitude() + "\n " +
                             "Place longitude: " + entity.getLongitude() + "\n " +
-                            "Place description: " + entity.getDescription() + "\n "
+                            "Place description: " + entity.getDescription() + "\n " +
+                            "Place photo: " + entity.getImage() + "\n "
             );
         }
     }
@@ -126,7 +130,18 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         etLongitude.setText(entity.getLongitude());
         etAddress.setText(entity.getAddress());
         etPlaceDescription.setText(entity.getDescription());
-
+        if (entity.getImage() != null || !Objects.equals(entity.getImage(), "")) {
+            String rawImg = entity.getImage();
+            try {
+                JSONArray array = new JSONArray(rawImg);
+                String imageUrl = array.getString(0); // Get first element in the array
+                Picasso.get().load(imageUrl).into(ivPlacePhoto);
+            } catch (JSONException e) {
+                Log.e(TAG, "ERROR: " + e.toString());
+            }
+        } else {
+            Picasso.get().load(R.drawable.logo_add_location).into(ivPlacePhoto);
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -170,9 +185,9 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
                     if (json.getBoolean("success")) {
                         String filename = json.getJSONObject("file").getString("filename");
                         imageUrl = BASE_URL + "public/" + filename;
-                        JSonString = "[\"" + imageUrl + "\"]";
+                        jsonString = "[\"" + imageUrl + "\"]";
                         Helper.makeSnackBar(rlAddPlace, "Image uploaded successfully");
-                        Log.d(TAG, "JsonString: " + JSonString);
+                        Log.d(TAG, "JsonString: " + jsonString);
                     } else {
                         Helper.makeSnackBar(rlAddPlace, "Upload failed");
                     }
@@ -197,11 +212,11 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
             if (place_uuid != null && !place_uuid.isEmpty()) {
                 // Update existing place
                 updatePlaceRetrofit(place_uuid, entity.getName(), entity.getDescription(),
-                        entity.getAddress(), entity.getLatitude(), entity.getLongitude(), entity.getCreatedBy());
+                        entity.getAddress(), entity.getLatitude(), entity.getLongitude(), entity.getCreatedBy(), entity.getImage());
             } else {
                 // Insert new place
                 insertPlaceRetrofit(entity.getName(), entity.getDescription(),
-                        entity.getAddress(), entity.getLatitude(), entity.getLongitude(), entity.getCreatedBy());
+                        entity.getAddress(), entity.getLatitude(), entity.getLongitude(), entity.getCreatedBy(), entity.getImage());
             }
         }
     }
@@ -214,10 +229,11 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         entity.setLongitude(Helper.getStringFromInput(etLongitude));
         entity.setCreatedBy(SharedPref.getUserUid(context));
         entity.setUuid(place_uuid);
+        entity.setImage(jsonString);
     }
 
     private void insertPlaceRetrofit(String name, String description, String address,
-                                     String latitude, String longitude, String createdBy) {
+                                     String latitude, String longitude, String createdBy, String jsonString) {
         DialogUtils.showLoadingDialog(context, context.getString(R.string.Please_wait));
 
         JsonObject placeBody = new JsonObject();
@@ -227,7 +243,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         placeBody.addProperty("latitude", latitude);
         placeBody.addProperty("longitude", longitude);
         placeBody.addProperty("createdBy", createdBy);
-        placeBody.addProperty("images", JSonString);
+        placeBody.addProperty("images", this.jsonString);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
 
@@ -268,7 +284,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void updatePlaceRetrofit(String uuid, String name, String description, String address,
-                                     String latitude, String longitude, String createdBy) {
+                                     String latitude, String longitude, String createdBy, String jsonString) {
 
         DialogUtils.showLoadingDialog(context, getString(R.string.Updating_place));
 
@@ -279,6 +295,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         placeBody.addProperty("latitude", latitude);
         placeBody.addProperty("longitude", longitude);
         placeBody.addProperty("createdBy", createdBy);
+        placeBody.addProperty("images", jsonString);
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
 

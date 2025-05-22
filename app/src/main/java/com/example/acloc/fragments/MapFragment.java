@@ -304,6 +304,9 @@ public class MapFragment extends Fragment {
 
     private void initMap() {
         fetchAndShowAllPlaces();
+        // Clear old data
+        placeList.clear(); // clear in-memory list ///
+        googleMap.clear(); // remove all markers from the map ///
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         geocoder = new Geocoder(requireContext(), Locale.getDefault());
@@ -493,7 +496,6 @@ public class MapFragment extends Fragment {
     private void fetchAndShowAllPlaces() {
         String token = "Bearer " + SharedPref.getAccessToken(context); // get saved token
 
-        // Using the new PlaceService through LocationApiClient
         PlaceService placeService = LocationApiClient.getInstance().getPlaceService();
         Call<ResponseBody> call = placeService.getAllPlaces(token);
 
@@ -517,6 +519,7 @@ public class MapFragment extends Fragment {
                             String uuid = placeObj.optString("uuid", "");
                             double lat = placeObj.getDouble("latitude");
                             double lng = placeObj.getDouble("longitude");
+                            String image = placeObj.getString("images");
 
                             LatLng latLng = new LatLng(lat, lng);
                             googleMap.addMarker(new MarkerOptions()
@@ -533,6 +536,7 @@ public class MapFragment extends Fragment {
                             place.setDescription(description);
                             place.setCreatedBy(createdBy);
                             place.setUuid(uuid);
+                            place.setImage(image);
 
                             placeList.add(place);
                         }
