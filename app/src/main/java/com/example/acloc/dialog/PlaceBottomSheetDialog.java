@@ -20,6 +20,7 @@ import com.example.acloc.activity.AddNewPlaceActivity;
 import com.example.acloc.activity.AddReportActivity;
 import com.example.acloc.activity.PlaceDetailActivity;
 import com.example.acloc.adapter.PlaceReportsAdapter;
+import com.example.acloc.adapter.AccessibilityTagsAdapter;
 import com.example.acloc.api.LocationApiClient;
 import com.example.acloc.model.Place;
 import com.example.acloc.model.Report;
@@ -29,6 +30,7 @@ import com.example.acloc.utility.Constants;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
+import com.example.acloc.utility.AccessibilityHelper;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -36,11 +38,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ieslamar.acloc.R;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,9 +62,9 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
     private boolean isFavorite = false;
 
     private TextView tvPlaceName, tvAddress, tvDescription, tvNoReports;
-    private ImageView ivFavorite, ivEdit, ivExpand;
+    private ImageView ivFavorite, ivEdit, ivExpand, ivPlaceImage;
     private AppCompatButton btnAddReport;
-    private RecyclerView rvReports;
+    private RecyclerView rvReports, rvAccessibilityOverview;
     private PlaceReportsAdapter adapter;
     private final List<Report> reportList = new ArrayList<>();
     private BottomSheetBehavior<View> behavior;
@@ -76,11 +84,9 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
             if (bottomSheet != null) {
                 behavior = BottomSheetBehavior.from(bottomSheet);
 
-                //Set initial state to half expanded
                 behavior.setPeekHeight(getResources().getDisplayMetrics().heightPixels / 2);
                 behavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
 
-                //Add callback to update expand/collapse icon
                 behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
                     public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -93,7 +99,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
 
                     @Override
                     public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                        // animation based on slide position - do nothing for now
+                        // Do nothing for now
                     }
                 });
             }
@@ -111,7 +117,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         initUI(view);
         setPlaceData();
         initListeners();
-        checkIfPlaceIsFavorite(SharedPref.getUserUid(context), place.getUuid());
+        checkIfPlaceIsFavorite(SharedPref.getUserUuid(context), place.getUuid());
         loadReports();
 
         return view;
@@ -125,24 +131,70 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         ivFavorite = view.findViewById(R.id.ivFavorite);
         ivEdit = view.findViewById(R.id.ivEdit);
         ivExpand = view.findViewById(R.id.ivExpand);
+        ivPlaceImage = view.findViewById(R.id.ivPlaceImage);
         btnAddReport = view.findViewById(R.id.btnAddReport);
         rvReports = view.findViewById(R.id.rvReports);
+        rvAccessibilityOverview = view.findViewById(R.id.rvAccessibilityOverview);
 
         rvReports.setLayoutManager(new LinearLayoutManager(context));
+        rvAccessibilityOverview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
     }
 
     private void setPlaceData() {
         tvPlaceName.setText(place.getName());
         tvAddress.setText(place.getAddress());
         tvDescription.setText(place.getDescription());
+
+        // Load place image with better error handling
+        loadPlaceImage();
+    }
+
+    private void loadPlaceImage() {
+        if (place.getImage() != null && !place.getImage().isEmpty()) {
+            try {
+                JSONArray imageArray = new JSONArray(place.getImage());
+                if (imageArray.length() > 0) {
+                    String imageUrl = imageArray.getString(0);
+
+                    // Ensure the URL is properly formatted
+                    if (!imageUrl.startsWith("http")) {
+                        // Assume it's a relative path and prepend base URL
+                        imageUrl = Constants.BASE_URL + imageUrl;
+                    }
+
+                    ivPlaceImage.setVisibility(View.VISIBLE);
+                    Picasso.get()
+                            .load(imageUrl)
+                            .placeholder(R.drawable.place_header)
+                            .error(R.drawable.place_header)
+                            .fit()
+                            .centerCrop()
+                            .into(ivPlaceImage);
+
+                    Log.d(TAG, "Loading place image: " + imageUrl);
+                } else {
+                    setDefaultPlaceImage();
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Error parsing place images", e);
+                setDefaultPlaceImage();
+            }
+        } else {
+            setDefaultPlaceImage();
+        }
+    }
+
+    private void setDefaultPlaceImage() {
+        ivPlaceImage.setVisibility(View.VISIBLE);
+        ivPlaceImage.setImageResource(R.drawable.place_header);
     }
 
     private void initListeners() {
         ivFavorite.setOnClickListener(v -> {
             if (isFavorite) {
-                removePlaceFromFavorites(SharedPref.getUserUid(context), place.getUuid());
+                removePlaceFromFavorites(SharedPref.getUserUuid(context), place.getUuid());
             } else {
-                addPlaceToFavorites(SharedPref.getUserUid(context), place.getUuid());
+                addPlaceToFavorites(SharedPref.getUserUuid(context), place.getUuid());
             }
         });
 
@@ -166,7 +218,6 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
             dismiss();
         });
 
-        // Open full screen details on click
         View.OnClickListener fullScreenListener = v -> {
             Helper.goTo(context, PlaceDetailActivity.class, Constants.PLACE, place);
             dismiss();
@@ -175,6 +226,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         tvPlaceName.setOnClickListener(fullScreenListener);
         tvAddress.setOnClickListener(fullScreenListener);
         tvDescription.setOnClickListener(fullScreenListener);
+        ivPlaceImage.setOnClickListener(fullScreenListener);
     }
 
     private void loadReports() {
@@ -194,16 +246,15 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
 
                         for (JsonElement element : data.getAsJsonArray("reports")) {
                             Report report = getReport(element);
-
                             reportList.add(report);
                         }
 
-                        // Show latest reports first
                         Collections.reverse(reportList);
                         List<Report> latestReports = reportList.size() > 3 ?
                                 reportList.subList(0, 3) : reportList;
 
                         updateReportsUI(latestReports);
+                        calculateAndShowAccessibilityStats(reportList);
                     } else {
                         showNoReports();
                     }
@@ -228,7 +279,116 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         report.setDescription(reportObject.get("description").getAsString());
         report.setPlaceName(reportObject.get("place_name").getAsString());
         report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+
+        List<String> reportTypeUuids = new ArrayList<>();
+        List<String> reportTypeNames = new ArrayList<>();
+
+        processReportTypeField(reportObject, "report_type_uuids", reportTypeUuids);
+        processReportTypeField(reportObject, "report_type_names", reportTypeNames);
+
+        // Fallback for legacy fields (singular)
+        if (reportTypeUuids.isEmpty() && reportObject.has("report_type_uuid") && !reportObject.get("report_type_uuid").isJsonNull()) {
+            reportTypeUuids.add(reportObject.get("report_type_uuid").getAsString());
+        }
+
+        if (reportTypeNames.isEmpty() && reportObject.has("report_type_name") && !reportObject.get("report_type_name").isJsonNull()) {
+            reportTypeNames.add(reportObject.get("report_type_name").getAsString());
+        }
+
+        report.setReportTypeUuids(reportTypeUuids);
+        report.setReportTypeNames(reportTypeNames);
+
         return report;
+    }
+
+    private static void processReportTypeField(JsonObject reportObject, String fieldName, List<String> resultList) {
+        try {
+            if (!reportObject.has(fieldName) || reportObject.get(fieldName).isJsonNull()) {
+                return; // null
+            }
+
+            JsonElement element = reportObject.get(fieldName);
+
+            if (element.isJsonArray()) {
+                // array JSON
+                JsonArray array = element.getAsJsonArray();
+                for (JsonElement item : array) {
+                    String value = item.getAsString().trim();
+                    if (!value.isEmpty()) {
+                        resultList.add(value);
+                    }
+                }
+                Log.d(TAG, fieldName + " processed as array: " + resultList.size() + " items");
+
+            } else if (element.isJsonPrimitive()) {
+                // string (GROUP_CONCAT)
+                String stringValue = element.getAsString();
+                if (!stringValue.isEmpty()) {
+                    // Split (GROUP_CONCAT)
+                    String[] values = stringValue.split(",");
+                    for (String value : values) {
+                        String cleanValue = value.trim();
+                        if (!cleanValue.isEmpty()) {
+                            resultList.add(cleanValue);
+                        }
+                    }
+                    Log.d(TAG, fieldName + " processed as string: " + resultList.size() + " items from '" + stringValue + "'");
+                }
+            } else {
+                Log.w(TAG, fieldName + " is neither array nor primitive: " + element.getClass().getSimpleName());
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error processing " + fieldName, e);
+        }
+    }
+
+    private void calculateAndShowAccessibilityStats(List<Report> allReports) {
+        if (allReports.isEmpty()) {
+            rvAccessibilityOverview.setVisibility(View.GONE);
+            return;
+        }
+
+        // Calculate statistics for each accessibility type
+        Map<String, AccessibilityStats> statsMap = new HashMap<>();
+        int totalReports = allReports.size();
+
+        for (Report report : allReports) {
+            List<String> reportTypeNames = report.getReportTypeNames();
+            if (reportTypeNames != null) {
+                for (String typeName : reportTypeNames) {
+                    String displayName = AccessibilityHelper.getDisplayName(context, typeName);
+                    if (!displayName.equals(context.getString(R.string.accessibility_unknown))) {
+                        AccessibilityStats stats = statsMap.getOrDefault(displayName, new AccessibilityStats(displayName));
+                        stats.addRating(report.getReportRating());
+                        statsMap.put(displayName, stats);
+                    }
+                }
+            }
+        }
+
+        // Show overall statistics
+        showAccessibilityOverview(new ArrayList<>(statsMap.values()));
+    }
+
+    private void showAccessibilityOverview(List<AccessibilityStats> statsList) {
+        if (statsList.isEmpty()) {
+            rvAccessibilityOverview.setVisibility(View.GONE);
+            return;
+        }
+
+        // Convert stats to tag data for display
+        List<AccessibilityTagsAdapter.TagData> tagDataList = new ArrayList<>();
+        for (AccessibilityStats stats : statsList) {
+            tagDataList.add(new AccessibilityTagsAdapter.TagData(
+                    stats.typeName + " (" + stats.count + ")",
+                    stats.getAverageRating()
+            ));
+        }
+
+        AccessibilityTagsAdapter overviewAdapter = new AccessibilityTagsAdapter(context, tagDataList);
+        rvAccessibilityOverview.setAdapter(overviewAdapter);
+        rvAccessibilityOverview.setVisibility(View.VISIBLE);
     }
 
     private void updateReportsUI(List<Report> reports) {
@@ -244,7 +404,33 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
 
     private void showNoReports() {
         rvReports.setVisibility(View.GONE);
+        rvAccessibilityOverview.setVisibility(View.GONE);
         tvNoReports.setVisibility(View.VISIBLE);
+    }
+
+    // Helper class for accessibility statistics
+    private static class AccessibilityStats {
+        String typeName;
+        int count = 0;
+        int totalRating = 0;
+
+        AccessibilityStats(String typeName) {
+            this.typeName = typeName;
+        }
+
+        void addRating(int rating) {
+            count++;
+            totalRating += rating;
+        }
+
+        int getAverageRating() {
+            if (count == 0) return Constants.AVERAGE_RATING;
+
+            double average = (double) totalRating / count;
+            if (average <= 1.5) return Constants.BAD_RATING;
+            if (average <= 2.5) return Constants.AVERAGE_RATING;
+            return Constants.GOOD_RATING;
+        }
     }
 
     private void checkIfPlaceIsFavorite(String userUuid, String placeUuid) {
@@ -314,7 +500,6 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                         if (response.errorBody() != null) {
                             String errorBody = response.errorBody().string();
 
-                            // Try restoring if it's a duplicate (409 Conflict) or it isn't found (deleted)
                             if ((response.code() == 409 && errorBody.contains("ER_DUP_ENTRY"))|| response.code() == 404 ) {
                                 restorePlaceToFavorites(userUuid, placeUuid);
                                 return;

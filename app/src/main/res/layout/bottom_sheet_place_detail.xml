@@ -12,6 +12,17 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Place Image -->
+        <ImageView
+            android:id="@+id/ivPlaceImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rectangle"
+            android:contentDescription="@string/place_image"
+            tools:src="@drawable/place_header" />
+
         <!-- Header section -->
         <RelativeLayout
             android:layout_width="match_parent"
@@ -89,6 +100,29 @@
                 android:textColor="@android:color/white"
                 android:text="@string/Add_Report" />
         </RelativeLayout>
+
+        <!-- Accessibility Overview Section -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#DDDDDD" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/accessibility_overview" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAccessibilityOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <!-- Reports section -->
         <View

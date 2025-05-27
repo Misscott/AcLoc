@@ -67,7 +67,7 @@ public interface ReportService {
      * @param reportData Report data containing parameters to modify
      * @return JsonObject containing updated report information
      */
-    @PUT("/reports/{uuid}")
+    @PUT("reports/{uuid}")
     Call<JsonObject> updateReport(
             @Header("Authorization") String token,
             @Path("uuid") String uuid,

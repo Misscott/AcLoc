@@ -4,11 +4,11 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Primary Colors -->
-    <color name="primaryColor_light">#0D47A1</color> <!-- Deep Blue: trustworthy, strong (main actions or headers) -->
+    <color name="primaryColor_light">#0D47A1</color>
     <color name="primaryColor_dark">#4D8EF4</color>
 
     <!-- Primary Variant -->
-    <color name="primaryVariant_light">#42A5F5</color> <!-- Light Blue: fresh, friendly (backgrounds, buttons, accents) -->
+    <color name="primaryVariant_light">#42A5F5</color>
     <color name="primaryVariant_dark">#5AB1F6</color>
 
     <!-- Accessibility Status Colors -->
@@ -17,12 +17,12 @@
     <color name="notAccessibleColor">#C62828</color>
 
     <!-- Background Colors -->
-    <color name="backgroundColor_light">#FAFAFA</color> <!-- Light background for bright theme -->
-    <color name="backgroundColor_dark">#121212</color> <!-- Dark background for dark mode -->
+    <color name="backgroundColor_light">#FAFAFA</color>
+    <color name="backgroundColor_dark">#121212</color>
 
     <!-- Surface Colors -->
-    <color name="surfaceColor_light">#FFFFFF</color> <!-- Surface for light theme -->
-    <color name="surfaceColor_dark">#040404</color> <!-- Surface for dark theme --> <!--changed -->
+    <color name="surfaceColor_light">#FFFFFF</color>
+    <color name="surfaceColor_dark">#040404</color>
 
     <!-- Text & Icon Colors -->
     <color name="onPrimaryColor_light">#FFFFFF</color>
@@ -31,20 +31,19 @@
     <color name="onSecondaryColor_light">#000000</color>
     <color name="onSecondaryColor_dark">#FFFFFF</color>
 
-    <color name="onBackgroundColor_light">#212121
-    </color> <!-- Light Gray: soft background (cards/app bg) -->
+    <color name="onBackgroundColor_light">#212121</color>
     <color name="onBackgroundColor_dark">#E0E0E0</color>
 
-    <color name="onSurfaceColor_light">#212121</color> <!-- Dark text on surface -->
-    <color name="onSurfaceColor_dark">#F5F5F5</color> <!-- Light Gray for dark surfaces -->
+    <color name="onSurfaceColor_light">#212121</color>
+    <color name="onSurfaceColor_dark">#F5F5F5</color>
 
     <!-- Error Colors -->
-    <color name="errorColor_light">#C62828</color> <!-- Error red in light mode -->
-    <color name="errorColor_dark">#F44336</color> <!-- Error red in dark mode -->
+    <color name="errorColor_light">#C62828</color>
+    <color name="errorColor_dark">#F44336</color>
 
     <!-- Accent / Highlight -->
-    <color name="accentColor_light">#FF4081</color> <!-- Bright pink: attention-grabbing -->
-    <color name="accentColor_dark">#C51162</color> <!-- Darker pink for dark mode -->
+    <color name="accentColor_light">#FF4081</color>
+    <color name="accentColor_dark">#C51162</color>
 
     <color name="colorTertiary_light">#e8edf6</color>
     <color name="colorTertiary_dark">#232324</color>
@@ -55,5 +54,26 @@
     <color name="yellow">#FFC107</color>
     <color name="red">#F44336</color>
     <color name="light_blue">#e8edf6</color>
+
+    <!-- Accessibility Tag Colors -->
+    <!-- Good Rating (3) -->
+    <color name="accessibility_good_bg">#E8F5E8</color>
+    <color name="accessibility_good_text">#2E7D32</color>
+    <color name="accessibility_good_border">#4CAF50</color>
+
+    <!-- Average Rating (2) -->
+    <color name="accessibility_average_bg">#FFF8E1</color>
+    <color name="accessibility_average_text">#F57C00</color>
+    <color name="accessibility_average_border">#FF9800</color>
+
+    <!-- Poor Rating (1) -->
+    <color name="accessibility_poor_bg">#FFEBEE</color>
+    <color name="accessibility_poor_text">#C62828</color>
+    <color name="accessibility_poor_border">#F44336</color>
+
+    <!-- Default/Unrated -->
+    <color name="accessibility_default_bg">#F5F5F5</color>
+    <color name="accessibility_default_text">#757575</color>
+    <color name="accessibility_default_border">#BDBDBD</color>
 
 </resources>

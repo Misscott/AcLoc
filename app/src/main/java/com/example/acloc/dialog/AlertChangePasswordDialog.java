@@ -95,7 +95,7 @@ public class AlertChangePasswordDialog implements View.OnClickListener {
             String username = SharedPref.getUserName(context);
             String oldPassword = Helper.getStringFromInput(etOldPassword);
             String newPassword = Helper.getStringFromInput(etNewPassword);
-            String uuid = SharedPref.getUserUid(context);
+            String uuid = SharedPref.getUserUuid(context);
 
             verifyOldPasswordRetrofit(uuid, username, oldPassword, newPassword);
         }

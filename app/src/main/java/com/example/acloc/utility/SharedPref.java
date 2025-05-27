@@ -44,7 +44,7 @@ public class SharedPref {
         editor.apply();
     }
 
-    public static String getUserUid(Context con) {
+    public static String getUserUuid(Context con) {
         return sharedPreferences(con).getString(USER_UUID, "");
     }
 

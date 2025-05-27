@@ -107,7 +107,7 @@ public class MyReportsFragment extends Fragment implements View.OnClickListener 
             if (reportList == null) {
                 reportList = new ArrayList<>();
             }
-            String userUuid = SharedPref.getUserUid(context);
+            String userUuid = SharedPref.getUserUuid(context);
             getReportsByUserUuid(userUuid);
         } catch (Exception e) {
             Log.e(TAG, "Error in MyReportsFragment", e);

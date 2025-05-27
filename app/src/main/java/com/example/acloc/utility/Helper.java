@@ -249,7 +249,7 @@ public class Helper {
             }
 
             // Regex for strong password validation
-            String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
+            String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.])[A-Za-z\\d@$!%*?&.]{6,}$";
 
             if (!passwordText.matches(passwordPattern)) {
                 if (textInputLayout != null) {
@@ -360,4 +360,3 @@ public class Helper {
         return new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
     }
 }
-

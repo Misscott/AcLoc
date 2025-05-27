@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         View[] views = {etName, etEmail, etPassword};
         if (Helper.isEmptyFieldValidation(context, views) && Helper.isEmailValid(context, etEmail) && Helper.isPasswordValid(context, etPassword)) {
             setInputDataToEntity();
-            registerUserWithRetrofit();
+            registerUser();
         }
     }
 
@@ -107,17 +107,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         entity.setPassword(Helper.getStringFromInput(etPassword));
     }
 
-    private void registerUserWithRetrofit() {
+    private void registerUser() {
         DialogUtils.showLoadingDialog(context, getString(R.string.Please_wait));
 
-        JsonObject jsonParam = new JsonObject();
-        jsonParam.addProperty("username", entity.getUsername());
-        jsonParam.addProperty("email", entity.getEmail());
-        jsonParam.addProperty("password", entity.getPassword());
-        jsonParam.addProperty("fk_role", Constants.ADMIN); //Default Admin for now (BUT acc to api it will be Viewer)
-
-        AuthService authService = LocationApiClient.getInstance().getAuthService();
-        Call<JsonObject> call = authService.registerUser(jsonParam);
+        Call<JsonObject> call = getJsonObjectCall();
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -161,5 +154,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Helper.makeSnackBar(rlRegister, "API Failure: " + t.toString() + " Try again");
             }
         });
+    }
+
+    private Call<JsonObject> getJsonObjectCall() {
+        JsonObject jsonParam = new JsonObject();
+        jsonParam.addProperty("username", entity.getUsername());
+        jsonParam.addProperty("email", entity.getEmail());
+        jsonParam.addProperty("password", entity.getPassword());
+        jsonParam.addProperty("fk_role", Constants.ADMIN); //Default Admin for now (BUT acc to api it will be Viewer)
+
+        AuthService authService = LocationApiClient.getInstance().getAuthService();
+        Call<JsonObject> call = authService.registerUser(jsonParam);
+        return call;
     }
 }

@@ -136,7 +136,7 @@ public class AlertViewAddNewPlaceDialog implements View.OnClickListener {
         entity.setAddress(Helper.getStringFromInput(etAddress));
         entity.setLatitude(Helper.getStringFromInput(etLatitude));
         entity.setLongitude(Helper.getStringFromInput(etLongitude));
-        entity.setCreatedBy(SharedPref.getUserUid(context));
+        entity.setCreatedBy(SharedPref.getUserUuid(context));
         entity.setUuid(place_uuid);
     }
 

@@ -174,6 +174,46 @@
     <string name="please">Por favor</string>
     <string name="empty">Vacío</string>
     <string name="password_validation_requirement">La contraseña debe tener al menos 6 caracteres, incluir 1 mayúscula, 1 minúscula, 1 dígito y 1 carácter especial.</string>
+    <string name="rate_accessibility">Puntúa este sitio</string>
+    <string name="bad_rating">Mala accessibilidad</string>
+    <string name="average_rating">Accesibilidad regular</string>
+    <string name="good_rating">Buena accessibilidad</string>
+    <string name="please_select_accessibility_type">Selecciona el tipo de discapacidad relacionado</string>
+    <string name="get_current_location">Localización actual</string>
+    <string name="enter_location">Introduzca una locación</string>
+    <string name="location">Localización</string>
+    <string name="rating">Puntuación</string>
+    <string name="accessibility_features">Características accesibles</string>
+    <string name="select_accessibility_features">Selecciona el tipo de discapacidad relacionada con el comentario</string>
+    <string name="submit_report">Enviar comentario</string>
+    <string name="report_title">Titulo del comentario</string>
+    <string name="report_description">Cuerpo del comentario</string>
+    <string name="selected">Selected</string>
+    <string name="bad_accessibility">Bad accessibility</string>
+    <string name="rate_accessibility_experience">Rate the accessibility experience of this location</string>
+    <string name="place_info">Location info</string>
+    <string name="describe_accessibility">Accessibility info</string>
+    <string name="report_type_icon">Report type icon</string>
+    <string name="accessibility_icon">Accessibility icon</string>
+    <string name="place_image">Place image</string>
 
+    <!-- Accessibility Types -->
+    <string name="accessibility_wheelchair">Silla de ruedas</string>
+    <string name="accessibility_visual">Acceso visual</string>
+    <string name="accessibility_hearing">Acceso auditivo</string>
+    <string name="accessibility_cognitive">Acceso cognitivo</string>
+    <string name="accessibility_mobility">Movilidad</string>
+    <string name="accessibility_parking">Estacionamiento</string>
+    <string name="accessibility_entrance">Entrada</string>
+    <string name="accessibility_bathroom">Baño</string>
+    <string name="accessibility_elevator">Ascensor</string>
+    <string name="accessibility_ramp">Rampa</string>
+    <string name="accessibility_unknown">Accesibilidad</string>
 
+    <!-- Selection states -->
+    <string name="tap_to_select">toca para seleccionar</string>
+    <string name="add_photo">Add images to your comment</string>
+    <string name="error_no_place_selected">Error: no place selected</string>
+    <string name="address_not_available">Address not available</string>
+    <string name="accessibility_overview">Accessibility overview</string>
 </resources>

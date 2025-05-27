@@ -74,7 +74,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 holder.tvDescription.setText(favorite.getPlaceDescription());
 
                 // handle favorite on click
-                holder.ivFavorite.setOnClickListener(v -> removePlaceFromFavorites(SharedPref.getUserUid(context), favorite.getPlaceUuid(), favorite.getUuid()));
+                holder.ivFavorite.setOnClickListener(v -> removePlaceFromFavorites(SharedPref.getUserUuid(context), favorite.getPlaceUuid(), favorite.getUuid()));
 
                 holder.itemView.setOnClickListener(v ->  getPlaceByUuid(favorite.getPlaceUuid()));
             }

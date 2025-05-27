@@ -130,7 +130,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void initObj() {
         context = this;
-        checkIfPlaceIsFavorite(SharedPref.getUserUid(context), place_uuid);
+        checkIfPlaceIsFavorite(SharedPref.getUserUuid(context), place_uuid);
     }
 
     private void loadIntentData() {
@@ -235,9 +235,9 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void onClickFavorite() {
         if (isFavorite) {
-            removePlaceFromFavorites(SharedPref.getUserUid(context), place_uuid);
+            removePlaceFromFavorites(SharedPref.getUserUuid(context), place_uuid);
         } else {
-            addPlaceToFavorites(SharedPref.getUserUid(context), place_uuid);
+            addPlaceToFavorites(SharedPref.getUserUuid(context), place_uuid);
         }
     }
 

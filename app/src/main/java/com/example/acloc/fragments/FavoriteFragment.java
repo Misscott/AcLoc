@@ -103,7 +103,7 @@ public class FavoriteFragment extends Fragment {
             if (favoriteList == null) {
                 favoriteList = new ArrayList<>();
             }
-            String userUuid = SharedPref.getUserUid(context);
+            String userUuid = SharedPref.getUserUuid(context);
             getFavoriteByUserUuid(userUuid);
         } catch (Exception e) {
             Log.e(TAG, "Error in FavoriteFragment", e);

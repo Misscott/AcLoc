@@ -1,13 +1,33 @@
 package com.example.acloc.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Report implements Serializable {
-    String uuid, fkUser, fkPlace, fkReportType, description, createdBy;
+    String uuid, fkUser, fkPlace, description, createdBy;
     String placeName, placeUuid;
     int reportRating;
     String image;
+    private List<String> reportTypeUuids = new ArrayList<>();
+    private List<String> reportTypeNames = new ArrayList<>();
 
+
+    public List<String> getReportTypeUuids() {
+        return reportTypeUuids;
+    }
+
+    public void setReportTypeUuids(List<String> reportTypeUuids) {
+        this.reportTypeUuids = reportTypeUuids;
+    }
+
+    public List<String> getReportTypeNames() {
+        return reportTypeNames;
+    }
+
+    public void setReportTypeNames(List<String> reportTypeNames) {
+        this.reportTypeNames = reportTypeNames;
+    }
     public String getUuid() {
         return uuid;
     }
@@ -30,14 +50,6 @@ public class Report implements Serializable {
 
     public void setFkPlace(String fkPlace) {
         this.fkPlace = fkPlace;
-    }
-
-    public String getFkReportType() {
-        return fkReportType;
-    }
-
-    public void setFkReportType(String fkReportType) {
-        this.fkReportType = fkReportType;
     }
 
     public String getDescription() {

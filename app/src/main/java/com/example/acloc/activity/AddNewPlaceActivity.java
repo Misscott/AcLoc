@@ -35,8 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -248,7 +246,7 @@ public class AddNewPlaceActivity extends AppCompatActivity implements View.OnCli
         entity.setAddress(Helper.getStringFromInput(etAddress));
         entity.setLatitude(Helper.getStringFromInput(etLatitude));
         entity.setLongitude(Helper.getStringFromInput(etLongitude));
-        entity.setCreatedBy(SharedPref.getUserUid(context));
+        entity.setCreatedBy(SharedPref.getUserUuid(context));
         entity.setUuid(place_uuid);
         entity.setImage(jsonString);
     }
