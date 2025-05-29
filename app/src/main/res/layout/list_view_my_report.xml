@@ -3,139 +3,218 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
-        app:cardUseCompatPadding="true"
-        app:strokeColor="?attr/colorPrimary"
-        app:strokeWidth="2dp"
-
+        app:cardUseCompatPadding="false"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:strokeColor="?attr/colorOutline"
+        app:strokeWidth="1dp"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_padding"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- Header with place name and actions -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="horizontal">
 
-                <!--Place name-->
+                <!-- Place info section -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <!-- Place name with icon -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/small_padding"
-                        android:text="@string/Place_Name"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="@dimen/textSizeMedium"
-                        android:textStyle="bold"
-                        app:startIconDrawable="@drawable/ic_location" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="4dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="6dp"
+                            android:src="@drawable/ic_location"
+                            app:tint="?attr/colorPrimary" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Place_Name"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvPlaceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:hint="@string/Place_Name"
-                        android:importantForAutofill="no"
-                        android:inputType="textMultiLine"
-                        android:maxLines="5"
                         android:text="@string/Place_Name"
-                        android:textColor="@color/neutralGrey"
-                        android:textSize="@dimen/textSizeInEditText" />
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+
                 </LinearLayout>
 
+                <!-- Action buttons -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
-                    <ImageView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/ivEdit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="Edit"
-                        android:src="@drawable/ic_edit_location"
-                        app:tint="?attr/colorOnBackground" />
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="4dp"
+                        android:contentDescription="@string/edit"
+                        app:icon="@drawable/ic_edit_location"
+                        app:iconTint="?attr/colorPrimary"
+                        app:iconSize="20dp"
+                        app:backgroundTint="?attr/colorSurfaceVariant" />
 
-                    <ImageView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/ivDelete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/small_padding"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:contentDescription="@string/Delete_report"
-                        android:src="@drawable/ic_delete" />
+                        app:icon="@drawable/ic_delete"
+                        app:iconTint="?attr/colorError"
+                        app:iconSize="20dp"
+                        app:backgroundTint="?attr/colorErrorContainer" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!--Report description-->
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="?attr/colorOutline"
+                android:alpha="0.3" />
+
+            <!-- Description section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <!-- Description label -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_padding"
-                    android:text="@string/Report_Description"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="@dimen/textSizeInEditText"
-                    android:textStyle="bold"
-                    app:startIconDrawable="@drawable/ic_location" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="6dp"
+                        android:src="@drawable/ic_report"
+                        app:tint="?attr/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Report_Description"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="@string/Report_Description"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"
                     android:text="@string/Place_Description"
-                    android:textColor="@color/neutralGrey"
-                    android:textSize="@dimen/textSizeSmall" />
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="3"
+                    android:ellipsize="end" />
+
             </LinearLayout>
 
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
+            <!-- Rating section -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/content_padding"
-                android:background="@drawable/rating"
-                android:backgroundTint="@color/neutralGrey"
-                android:gravity="center"
-                android:padding="@dimen/content_padding"
-                android:text="@string/Rating_GOOD"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textColor="?attr/colorOnPrimary" />
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Rating badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Rating_GOOD"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:textAllCaps="true" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Spacer -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- TODO: Date/time info
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hace 2 días"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="11sp"
+                    android:alpha="0.7" /> -->
+
+            </LinearLayout>
 
         </LinearLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

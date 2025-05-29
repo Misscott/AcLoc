@@ -3,52 +3,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlMap"
+    android:layout_marginTop="?attr/actionBarSize"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.acloc.fragments.MapFragment">
+    android:layout_marginBottom="@dimen/bottom_menu_height"
+    android:layout_height="match_parent">
 
+    <!-- Google Maps Fragment -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapFrame"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilSearchLocation"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <!-- Search Container Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:elevation="4dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@android:drawable/ic_menu_search"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp">
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="?attr/colorSurface">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSearchLocation"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Search_Place"
-            android:imeOptions="actionSearch"
-            android:background="@color/primaryVariant_dark"
-            android:inputType="text"
-            android:maxLines="1" />
+            android:orientation="vertical">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <!-- Search Input - MANTIENE EL ID ORIGINAL -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilSearchLocation"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:endIconMode="custom"
+                app:endIconDrawable="@android:drawable/ic_menu_search"
+                app:endIconTint="?attr/colorPrimary"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:hintTextColor="?attr/colorPrimary">
 
-    <!-- ListView for search suggestions -->
-    <ListView
-        android:id="@+id/lvSuggestions"
-        android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearchLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Search_Place"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Search Suggestions -->
+            <ListView
+                android:id="@+id/lvSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:maxHeight="200dp"
+                android:divider="?attr/colorOutline"
+                android:dividerHeight="1dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Current Location FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCurrentLocation"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tilSearchLocation"
-        android:layout_marginStart="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
-        android:background="@color/primaryVariant_dark"
-        android:elevation="4dp"
-        android:visibility="gone" />
+        android:src="@drawable/ic_location"
+        android:contentDescription="@string/get_current_location"
+        app:fabSize="normal"
+        app:elevation="6dp"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorPrimary" />
 
 </RelativeLayout>

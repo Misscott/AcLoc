@@ -1,27 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlFavorite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize">
 
+    <!-- RecyclerView with padding for better spacing -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFavorite"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="visible"
-        tools:listitem="@layout/list_view_favorite"
-        android:layout_marginBottom="@dimen/bottom_menu_height"/>
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:layout_marginBottom="@dimen/bottom_menu_height"
+        tools:listitem="@layout/list_view_favorite" />
 
-    <TextView
+    <!-- Enhanced Empty State -->
+    <LinearLayout
         android:id="@+id/tvNoData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/No_Favorite_found"
-        android:textAlignment="center"
-        tools:ignore="HardcodedText" />
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <!-- Empty state icon -->
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_favorite_border"
+            android:alpha="0.6"
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:contentDescription="@string/no_favorites" />
+
+        <!-- Main message -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/No_Favorite_found"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Subtitle message -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/places_you_mark_as_favorites_will_appear_here"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:alpha="0.8"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Call to action button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExplorePlaces"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/explore_places"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:elevation="2dp"
+            app:icon="@drawable/ic_location"
+            app:iconSize="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp" />
+
+    </LinearLayout>
 
 </FrameLayout>

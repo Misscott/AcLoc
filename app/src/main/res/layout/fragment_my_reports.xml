@@ -6,40 +6,48 @@
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
     android:id="@+id/rlMyReport"
-    tools:context=".fragment.MyReportsFragment"
-    android:layout_marginBottom="@dimen/bottom_menu_height">
+    android:layout_marginBottom="@dimen/bottom_menu_height"
+    android:background="?attr/colorSurface">
 
+    <!-- Main Content -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReport"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="visible"
+        android:padding="16dp"
+        android:clipToPadding="false"
         tools:listitem="@layout/list_view_my_report" />
 
-    <TextView
+    <!-- Empty State -->
+    <LinearLayout
         android:id="@+id/tvNoData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/No_reports_found"
-        android:textAlignment="center" />
+        android:orientation="vertical"
+        android:padding="32dp">
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extendedFbReport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginStart="@dimen/layout_padding"
-        android:layout_marginTop="@dimen/layout_padding"
-        android:layout_marginEnd="@dimen/layout_padding"
-        android:layout_marginBottom="@dimen/layout_padding"
-        android:text="@string/Add_Report"
-        android:textColor="?attr/colorOnPrimary"
-        app:icon="@drawable/ic_add"
-        android:backgroundTint="?attr/colorPrimary"
-        app:iconSize="@dimen/textSizeLarge"
-        app:iconTint="?attr/colorOnPrimary"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/No_reports_found"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="8dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_by_adding_your_first_accessibility_report"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:alpha="0.8" />
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -32,7 +32,7 @@
                 android:layout_height="120dp"
                 android:layout_marginBottom="24dp"
                 android:src="@drawable/logo_add_location"
-                android:contentDescription="App Logo" />
+                android:contentDescription="@string/app_logo" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -44,17 +44,7 @@
                 android:textColor="?attr/colorPrimary"
                 android:layout_marginBottom="8dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sign_in_to_continue"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="?attr/colorOnSurface"
-                android:alpha="0.7"
-                android:layout_marginBottom="32dp" />
-
-            <!-- Login Form Card -->
+            <!-- Login Form -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,8 +66,9 @@
                         android:layout_marginBottom="16dp"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:hintTextColor="?attr/colorPrimary"
-                        app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="?attr/colorPrimary">
+                        app:startIconDrawable="@drawable/ic_account"
+                        app:startIconTint="?attr/colorPrimary"
+                        app:startIconContentDescription="Username icon">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etUsername"
@@ -87,7 +78,9 @@
                             android:importantForAutofill="no"
                             android:inputType="textPersonName"
                             android:paddingTop="16dp"
-                            android:paddingBottom="16dp" />
+                            android:paddingBottom="16dp"
+                            android:paddingStart="56dp"
+                            android:paddingEnd="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Password Field -->
@@ -101,7 +94,8 @@
                         app:passwordToggleEnabled="true"
                         app:passwordToggleTint="?attr/colorPrimary"
                         app:startIconDrawable="@drawable/ic_lock"
-                        app:startIconTint="?attr/colorPrimary">
+                        app:startIconTint="?attr/colorPrimary"
+                        app:startIconContentDescription="Password icon">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassword"
@@ -111,7 +105,9 @@
                             android:importantForAutofill="no"
                             android:inputType="textPassword"
                             android:paddingTop="16dp"
-                            android:paddingBottom="16dp" />
+                            android:paddingBottom="16dp"
+                            android:paddingStart="56dp"
+                            android:paddingEnd="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Forgot Password Link -->
@@ -120,7 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="Forgot Password?"
+                        android:text="@string/forgot_password"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="14sp"
                         android:layout_marginBottom="24dp"
