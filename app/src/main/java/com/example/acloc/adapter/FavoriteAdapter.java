@@ -35,14 +35,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHolder> {
+    public interface OnFavoriteClickListener {
+        void onFavoriteClick(Favorite favorite);
+    }
 
+    private OnFavoriteClickListener clickListener;
     public static final String TAG = FavoriteAdapter.class.getSimpleName();
     private final Context context;
     private List<Favorite> favoriteList;
 
-    public FavoriteAdapter(Context context, List<Favorite> favoriteList) {
+    public FavoriteAdapter(Context context, List<Favorite> favoriteList, OnFavoriteClickListener clickListener) {
         this.context = context;
         this.favoriteList = favoriteList;
+        this.clickListener = clickListener;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -76,7 +81,13 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 // handle favorite on click
                 holder.ivFavorite.setOnClickListener(v -> removePlaceFromFavorites(SharedPref.getUserUuid(context), favorite.getPlaceUuid(), favorite.getUuid()));
 
-                holder.itemView.setOnClickListener(v ->  getPlaceByUuid(favorite.getPlaceUuid()));
+                //holder.itemView.setOnClickListener(v ->  getPlaceByUuid(favorite.getPlaceUuid()));
+
+                holder.itemView.setOnClickListener(v -> {
+                    if (clickListener != null) {
+                        clickListener.onFavoriteClick(favorite);
+                    }
+                });
             }
         } catch (Exception e) {
             Log.e(TAG, "Error in Favorite Adapter", e);
@@ -147,7 +158,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         });
     }
 
-    private void getPlaceByUuid(String placeUuid) {
+    /*private void getPlaceByUuid(String placeUuid) {
         DialogUtils.showLoadingDialog(context, context.getString(R.string.Please_wait));
 
         String token = "Bearer " + SharedPref.getAccessToken(context);
@@ -191,5 +202,5 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 Log.e(TAG, "Get Reports Failure: ", t);
             }
         });
-    }
+    }*/
 }

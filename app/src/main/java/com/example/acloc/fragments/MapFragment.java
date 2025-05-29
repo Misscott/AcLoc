@@ -48,6 +48,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ieslamar.acloc.R;
 
@@ -84,6 +86,7 @@ public class MapFragment extends Fragment {
     private List<String> suggestionsList = new ArrayList<>();
     private ArrayAdapter<String> suggestionsAdapter;
     private List<Address> addressResults = new ArrayList<>();
+    private FloatingActionButton fabCurrentLocation;
 
     private List<Place> placeList = new ArrayList<>();
 
@@ -126,6 +129,7 @@ public class MapFragment extends Fragment {
             lvSuggestions.setBackgroundColor(getResources().getColor(android.R.color.white));
             rlMap.addView(lvSuggestions);
         }
+        fabCurrentLocation = view.findViewById(R.id.fabCurrentLocation);
     }
 
     private void initObj() {
@@ -258,6 +262,21 @@ public class MapFragment extends Fragment {
             }
             return true;
         });
+
+        if (fabCurrentLocation != null) {
+            fabCurrentLocation.setOnClickListener(v -> {
+                if (googleMap != null && ContextCompat.checkSelfPermission(requireContext(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                    fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                        if (location != null) {
+                            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM));
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void getSuggestions(String query) {
@@ -556,5 +575,24 @@ public class MapFragment extends Fragment {
                 Helper.makeSnackBar(rlMap, getString(R.string.Network_error_Try_again));
             }
         });
+    }
+
+    public void navigateToPlace(double latitude, double longitude, String placeName, String placeUuid) {
+        if (googleMap != null) {
+            LatLng latLng = new LatLng(latitude, longitude);
+
+            // Animate camera to place
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_ZOOM));
+
+            // Search place and show bottom sheet dialog
+            Place targetPlace = placeList.stream().filter(place -> place.getUuid() != null && place.getUuid().equals(placeUuid)).findFirst().orElse(null);
+
+            if (targetPlace != null) {
+                // Show botom sheet after delay
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    showPlaceBottomSheet(targetPlace);
+                }, 1000);
+            }
+        }
     }
 }

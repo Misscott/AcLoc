@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FavoriteFragment.OnFavoriteInteractionListener{
     private static final String TAG = MainActivity.class.getSimpleName();
 
     // UI Components
@@ -409,5 +411,26 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "No roles found.");
         }
+    }
+
+    @Override
+    public void onNavigateToMap() {
+        bottomNavigationView.setSelectedItemId(R.id.menu_map);
+    }
+
+    @Override
+    public void onNavigateToPlace(double latitude, double longitude, String placeName, String placeUuid) {
+        // navigate to map
+        bottomNavigationView.setSelectedItemId(R.id.menu_map);
+
+        // delay
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            // Obtain current instance of MapFragment
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.flMainContainer);
+            if (currentFragment instanceof MapFragment) {
+                MapFragment mapFragment = (MapFragment) currentFragment;
+                mapFragment.navigateToPlace(latitude, longitude, placeName, placeUuid);
+            }
+        }, 300);
     }
 }

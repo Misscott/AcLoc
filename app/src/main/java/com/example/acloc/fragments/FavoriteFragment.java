@@ -3,6 +3,8 @@ package com.example.acloc.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.ieslamar.acloc.R;
 import com.example.acloc.adapter.FavoriteAdapter;
@@ -23,6 +25,7 @@ import com.example.acloc.service.FavoriteService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
+import com.google.android.material.button.MaterialButton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -38,11 +41,20 @@ public class FavoriteFragment extends Fragment {
     private View view;
     private FrameLayout rlFavorite;
     private RecyclerView rvFavorite;
-    private TextView tvNoData;
+    private LinearLayout tvNoData;
+    private MaterialButton btnExplorePlaces;
     private Context context;
     private FavoriteAdapter adapter;
     private Favorite favoriteEntity;
     private List<Favorite> favoriteList;
+
+    // Interface for communication with MainActivity
+    public interface OnFavoriteInteractionListener {
+        void onNavigateToMap();
+        void onNavigateToPlace(double latitude, double longitude, String placeName, String placeUuid);
+    }
+
+    private OnFavoriteInteractionListener mListener;
 
     public FavoriteFragment() {
     }
@@ -61,6 +73,20 @@ public class FavoriteFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+
+        // Set up the listener for communication with MainActivity
+        if (context instanceof OnFavoriteInteractionListener) {
+            mListener = (OnFavoriteInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFavoriteInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
@@ -87,6 +113,14 @@ public class FavoriteFragment extends Fragment {
         rlFavorite = view.findViewById(R.id.rlFavorite);
         rvFavorite = view.findViewById(R.id.rvFavorite);
         tvNoData = view.findViewById(R.id.tvNoData);
+
+        // Search button inside Linear Layout
+        if (tvNoData != null) {
+            btnExplorePlaces = tvNoData.findViewById(R.id.btnExplorePlaces);
+            if (btnExplorePlaces == null) {
+                Log.w(TAG, "Explore Places button not found in empty state layout");
+            }
+        }
     }
 
     private void initObj() {
@@ -95,7 +129,14 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void initListener() {
-
+        // Call to action
+        if (btnExplorePlaces != null) {
+            btnExplorePlaces.setOnClickListener(v -> {
+                if (mListener != null) {
+                    mListener.onNavigateToMap();
+                }
+            });
+        }
     }
 
     private void loadData() {
@@ -111,14 +152,14 @@ public class FavoriteFragment extends Fragment {
         }
     }
 
-
     @SuppressLint("NotifyDataSetChanged")
     private void setUpRecyclerView() {
         try {
             if (adapter != null) {
                 adapter.updateFavoriteList(favoriteList);
             } else {
-                adapter = new FavoriteAdapter(context, favoriteList);
+                // Pass the click listener to the adapter
+                adapter = new FavoriteAdapter(context, favoriteList, this::onFavoriteItemClick);
                 rvFavorite.setAdapter(adapter);
                 rvFavorite.setLayoutManager(Helper.getVerticalManager(context));
                 adapter.notifyDataSetChanged();
@@ -128,6 +169,26 @@ public class FavoriteFragment extends Fragment {
             Log.e(TAG, "Error in FavoriteFragment", e);
             Helper.showToast(context, getString(R.string.Something_went_wrong_Try_again));
             setDataVisibility(false);
+        }
+    }
+
+    // Handle favorite item click
+    private void onFavoriteItemClick(Favorite favorite) {
+        if (mListener != null) {
+            try {
+                double latitude = Double.parseDouble(favorite.getPlaceLat());
+                double longitude = Double.parseDouble(favorite.getPlaceLng());
+
+                mListener.onNavigateToPlace(
+                        latitude,
+                        longitude,
+                        favorite.getPlaceName(),
+                        favorite.getPlaceUuid()
+                );
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Error parsing coordinates", e);
+                Helper.showToast(context, "Error loading place location");
+            }
         }
     }
 
