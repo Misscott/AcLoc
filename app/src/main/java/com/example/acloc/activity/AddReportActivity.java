@@ -347,6 +347,8 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
                 reportTypeAdapter.setSelectedReportTypes(reportEntity.getReportTypeUuids());
             }
 
+            Log.d("tag", "reportTypesList: " + reportTypesList.toString());
+
             reportTypeAdapter.notifyDataSetChanged();
         }
     }

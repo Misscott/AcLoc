@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.ieslamar.acloc.R;
 import com.example.acloc.activity.AddReportActivity;
 import com.example.acloc.api.LocationApiClient;
@@ -105,7 +106,7 @@ public class MyReportsAdapter extends RecyclerView.Adapter<MyReportsAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvPlaceName, tvDescription, tvRating;
-        private final ImageView ivEdit, ivDelete;
+        private final MaterialButton ivEdit, ivDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

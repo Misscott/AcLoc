@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.acloc.MainActivity;
 import com.ieslamar.acloc.R;
 import com.example.acloc.adapter.MyReportsAdapter;
 import com.example.acloc.api.LocationApiClient;
@@ -24,7 +23,6 @@ import com.example.acloc.service.ReportService;
 import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -35,13 +33,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyReportsFragment extends Fragment implements View.OnClickListener {
+public class MyReportsFragment extends Fragment {
     public static final String TAG = MyReportsFragment.class.getSimpleName();
     private View view;
     private FrameLayout rlMyReport;
     private RecyclerView rvReport;
-    private TextView tvNoData;
-    private ExtendedFloatingActionButton extendedFbReport;
+    private View tvNoData;
     private Context context;
     private MyReportsAdapter adapter;
     private Report reportEntity;
@@ -56,7 +53,6 @@ public class MyReportsFragment extends Fragment implements View.OnClickListener 
         view = inflater.inflate(R.layout.fragment_my_reports, container, false);
         initUI();
         initObj();
-        initListener();
         return view;
     }
 
@@ -90,16 +86,11 @@ public class MyReportsFragment extends Fragment implements View.OnClickListener 
         rlMyReport = view.findViewById(R.id.rlMyReport);
         rvReport = view.findViewById(R.id.rvReport);
         tvNoData = view.findViewById(R.id.tvNoData);
-        extendedFbReport = view.findViewById(R.id.extendedFbReport);
     }
 
     private void initObj() {
         context = getContext();
         reportEntity = new Report();
-    }
-
-    private void initListener() {
-        extendedFbReport.setOnClickListener(this);
     }
 
     private void loadData() {
@@ -132,20 +123,6 @@ public class MyReportsFragment extends Fragment implements View.OnClickListener 
             Helper.makeSnackBar(rlMyReport, getString(R.string.Something_went_wrong_Try_again));
             setDataVisibility(false);
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.extendedFbReport) {
-            onClickExtendedFbReport();
-        }
-    }
-
-    //Open Map Fragment to add new place report
-    private void onClickExtendedFbReport() {
-        ((MainActivity) requireActivity())
-                .openFragmentFromChild(new MapFragment(), getString(R.string.Map), R.id.menu_map);
     }
 
     private void getReportsByUserUuid(String userUuid) {

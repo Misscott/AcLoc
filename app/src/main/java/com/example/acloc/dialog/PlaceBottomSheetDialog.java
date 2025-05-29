@@ -61,7 +61,8 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
     private Context context;
     private boolean isFavorite = false;
 
-    private TextView tvPlaceName, tvAddress, tvDescription, tvNoReports;
+    private TextView tvPlaceName, tvAddress, tvDescription;
+    private View tvNoReports;
     private ImageView ivFavorite, ivEdit, ivExpand, ivPlaceImage;
     private AppCompatButton btnAddReport;
     private RecyclerView rvReports, rvAccessibilityOverview;
@@ -391,6 +392,12 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         rvAccessibilityOverview.setVisibility(View.VISIBLE);
     }
 
+    private void showNoReports() {
+        rvReports.setVisibility(View.GONE);
+        rvAccessibilityOverview.setVisibility(View.GONE);
+        tvNoReports.setVisibility(View.VISIBLE);
+    }
+
     private void updateReportsUI(List<Report> reports) {
         if (reports != null && !reports.isEmpty()) {
             adapter = new PlaceReportsAdapter(context, reports);
@@ -402,10 +409,24 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         }
     }
 
-    private void showNoReports() {
-        rvReports.setVisibility(View.GONE);
-        rvAccessibilityOverview.setVisibility(View.GONE);
-        tvNoReports.setVisibility(View.VISIBLE);
+    /**
+     * Helper method to set text for no reports state
+     * @param text
+     */
+    private void setNoReportsText(String text) {
+        if (tvNoReports instanceof TextView) {
+            ((TextView) tvNoReports).setText(text);
+        } else if (tvNoReports instanceof ViewGroup) {
+            // Search for first TextView in the container
+            ViewGroup container = (ViewGroup) tvNoReports;
+            for (int i = 0; i < container.getChildCount(); i++) {
+                View child = container.getChildAt(i);
+                if (child instanceof TextView) {
+                    ((TextView) child).setText(text);
+                    break;
+                }
+            }
+        }
     }
 
     // Helper class for accessibility statistics
