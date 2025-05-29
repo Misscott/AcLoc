@@ -60,7 +60,7 @@
         <string name="BAD">BAD</string>
 
         <!--    Alert dialog    -->
-        <string name="change_language_confirmation">change language to Spanish</string>
+        <string name="change_language_confirmation">Change language to Spanish</string>
         <string name="Are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
         <string name="confirmation_message">Are you sure you want to %1$s?\nWARNING: This action cannot be undone</string>
         <string name="yes">Yes</string>
@@ -157,7 +157,7 @@
         <string name="additional_information">Additional Information</string>
         <string name="add_report">Rate this place!</string>
         <string name="how_would_you_rate_this_place">How would you rate the accessibility of this place?</string>
-        <string name="welcome_back">Welcome Back</string>
+        <string name="welcome_back">Welcome</string>
         <string name="sign_in_to_continue">Sign in to continue</string>
         <string name="expand">Expand</string>
         <string name="address">Address</string>
@@ -221,4 +221,12 @@
         <string name="error_no_place_selected">Error: no place selected</string>
         <string name="address_not_available">Address not available</string>
         <string name="accessibility_overview">Accessibility overview</string>
+        <string name="create_account">Create Account</string>
+        <string name="app_logo">App Logo</string>
+        <string name="forgot_password">Forgot Password?</string>
+        <string name="start_by_adding_your_first_accessibility_report">Start by adding your first accessibility report</string>
+        <string name="description_icon">Description icon</string>
+        <string name="explore_places">Explore Places</string>
+        <string name="places_you_mark_as_favorites_will_appear_here">Places you mark as favorites will appear here</string>
+        <string name="no_favorites">No favorites</string>
 </resources>

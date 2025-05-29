@@ -12,21 +12,21 @@
 
     <!--    toolbar -->
     <string name="Add_Report">Agregar Comentario</string>
-    <string name="Place_Details">Detalles sobre el lugar</string>
+    <string name="Place_Details">Detalles</string>
     <string name="Add_Place">Agregar localización</string>
 
     <!--    edittext    -->
-    <string name="Enter_Username">Introducir nombre de usuario</string>
-    <string name="Enter_Password">Introducir contraseña</string>
-    <string name="Enter_Email">Introducir correo electrónico</string>
-    <string name="Enter_Name">Introducir nombre</string>
+    <string name="Enter_Username">Introduzca nombre de usuario</string>
+    <string name="Enter_Password">Introduzca contraseña</string>
+    <string name="Enter_Email">Introduzca correo electrónico</string>
+    <string name="Enter_Name">Introduzca nombre</string>
     <string name="Enter_Location">Introduzca ubicación</string>
     <string name="Enter_Contact">Ingrese el contacto</string>
-    <string name="Already_have_an_Account">¿Ya tienes una cuenta?  </string>
+    <string name="Already_have_an_Account">"¿Ya tiene una cuenta?  "</string>
     <string name="Please_login">Por favor, inicie sesión</string>
     <string name="Please_register">Por favor, regístrese</string>
     <string name="Dont_have_an_Account">¿No tienes una cuenta?  </string>
-    <string name="My_Report">Mis informes</string>
+    <string name="My_Report">Mis comentarios</string>
     <string name="Map">Mapa</string>
     <string name="Favorite">Favoritos</string>
     <string name="Profile">Perfil</string>
@@ -60,7 +60,7 @@
 
     <!--    Alert dialog    -->
     <string name="change_language_confirmation">Cambiar el idioma a inglés</string>
-    <string name="Are_you_sure_you_want_to_logout">¿Estás seguro de que quieres cerrar sesión?</string>
+    <string name="Are_you_sure_you_want_to_logout">¿Estás seguro de querer cerrar sesión?</string>
     <string name="confirmation_message">¿Estás seguro de que deseas %1$s?\nADVERTENCIA: Esta acción no se puede deshacer</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
@@ -95,7 +95,7 @@
     <string name="Rating_BAD">Calificación: INACCESIBLE</string>
     <string name="Rating_AVERAGE">Calificación: REGULAR</string>
     <string name="Rating_GOOD">Calificación: ACCESIBLE</string>
-    <string name="Delete_report">Eliminar informe</string>
+    <string name="Delete_report">"Eliminar "</string>
     <string name="Removing_Report">Eliminando comentario…</string>
     <string name="Report_removed">¡Comentario eliminado!</string>
     <string name="Failed_to_remove_report">No se pudo eliminar el informe</string>
@@ -188,11 +188,11 @@
     <string name="submit_report">Enviar comentario</string>
     <string name="report_title">Titulo del comentario</string>
     <string name="report_description">Cuerpo del comentario</string>
-    <string name="selected">Selected</string>
-    <string name="bad_accessibility">Bad accessibility</string>
-    <string name="rate_accessibility_experience">Rate the accessibility experience of this location</string>
-    <string name="place_info">Location info</string>
-    <string name="describe_accessibility">Accessibility info</string>
+    <string name="selected">Seleccionado</string>
+    <string name="bad_accessibility">Mala accesibilidad</string>
+    <string name="rate_accessibility_experience">¿Cómo ha sido tu experiencia en este lugar?</string>
+    <string name="place_info">Información</string>
+    <string name="describe_accessibility">Información sobre accesibilidad</string>
     <string name="report_type_icon">Report type icon</string>
     <string name="accessibility_icon">Accessibility icon</string>
     <string name="place_image">Place image</string>
@@ -211,9 +211,18 @@
     <string name="accessibility_unknown">Accesibilidad</string>
 
     <!-- Selection states -->
-    <string name="tap_to_select">toca para seleccionar</string>
-    <string name="add_photo">Add images to your comment</string>
-    <string name="error_no_place_selected">Error: no place selected</string>
-    <string name="address_not_available">Address not available</string>
-    <string name="accessibility_overview">Accessibility overview</string>
+    <string name="tap_to_select">Toca para seleccionar</string>
+    <string name="add_photo">Añade imágenes</string>
+    <string name="error_no_place_selected">Error: no ha seleccionado un lugar</string>
+    <string name="address_not_available">Dirección no disponible</string>
+    <string name="accessibility_overview">Etiquetas</string>
+    <string name="photo_helps_others">Ayuda a otros usuarios</string>
+    <string name="create_account">Creación de cuenta</string>
+    <string name="app_logo">Logo de la app</string>
+    <string name="forgot_password">¿Ha olvidado su contraseña?</string>
+    <string name="start_by_adding_your_first_accessibility_report">Empieza por añadir tu primer comentario</string>
+    <string name="description_icon">Icono descripcion</string>
+    <string name="explore_places">Explorar localizaciones</string>
+    <string name="places_you_mark_as_favorites_will_appear_here">Los sitios que has marcado como favoritos aparecerán aquí</string>
+    <string name="no_favorites">No hay favoritos</string>
 </resources>
