@@ -153,9 +153,41 @@ public class MyReportsFragment extends Fragment {
                             report.setDescription(reportObject.get("description").getAsString());
                             report.setPlaceName(reportObject.get("place_name").getAsString());
                             report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
-                            JsonElement imagesElement = reportObject.get("images");
-                            if (imagesElement != null && imagesElement.isJsonArray()) {
-                                report.setImage(String.valueOf(imagesElement.getAsJsonArray()));
+
+                            // Imágenes
+                            if (reportObject.has("images") && !reportObject.get("images").isJsonNull()) {
+                                report.setImage(reportObject.get("images").getAsString());
+                            }
+
+                            // Report Type UUIDs
+                            if (reportObject.has("report_type_uuids") && !reportObject.get("report_type_uuids").isJsonNull()) {
+                                String uuidsString = reportObject.get("report_type_uuids").getAsString();
+                                List<String> uuids = new ArrayList<>();
+                                if (uuidsString != null && !uuidsString.trim().isEmpty()) {
+                                    String[] uuidArray = uuidsString.split(",");
+                                    for (String uuid : uuidArray) {
+                                        if (!uuid.trim().isEmpty()) {
+                                            uuids.add(uuid.trim());
+                                        }
+                                    }
+                                }
+                                report.setReportTypeUuids(uuids);
+                                Log.d(TAG, "Report " + report.getUuid() + " has types: " + uuids);
+                            }
+
+                            // Report Type Names
+                            if (reportObject.has("report_type_names") && !reportObject.get("report_type_names").isJsonNull()) {
+                                String namesString = reportObject.get("report_type_names").getAsString();
+                                List<String> names = new ArrayList<>();
+                                if (namesString != null && !namesString.trim().isEmpty()) {
+                                    String[] nameArray = namesString.split(",");
+                                    for (String name : nameArray) {
+                                        if (!name.trim().isEmpty()) {
+                                            names.add(name.trim());
+                                        }
+                                    }
+                                }
+                                report.setReportTypeNames(names);
                             }
 
                             reportList.add(report);
