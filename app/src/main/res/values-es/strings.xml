@@ -199,13 +199,13 @@
 
     <!-- Accessibility Types -->
     <string name="accessibility_wheelchair">Silla de ruedas</string>
-    <string name="accessibility_visual">Acceso visual</string>
-    <string name="accessibility_hearing">Acceso auditivo</string>
-    <string name="accessibility_cognitive">Acceso cognitivo</string>
-    <string name="accessibility_mobility">Movilidad</string>
-    <string name="accessibility_parking">Estacionamiento</string>
-    <string name="accessibility_entrance">Entrada</string>
-    <string name="accessibility_bathroom">Baño</string>
+    <string name="accessibility_visual">Discapacidad visual</string>
+    <string name="accessibility_hearing">Discapacidad auditiva</string>
+    <string name="accessibility_cognitive">Neurodivergencia</string>
+    <string name="accessibility_mobility">Movilidad reducida</string>
+    <string name="accessibility_parking">Estacionamiento adaptado</string>
+    <string name="accessibility_entrance">Entrada adaptada</string>
+    <string name="accessibility_bathroom">Baño adaptado</string>
     <string name="accessibility_elevator">Ascensor</string>
     <string name="accessibility_ramp">Rampa</string>
     <string name="accessibility_unknown">Accesibilidad</string>
@@ -225,4 +225,6 @@
     <string name="explore_places">Explorar localizaciones</string>
     <string name="places_you_mark_as_favorites_will_appear_here">Los sitios que has marcado como favoritos aparecerán aquí</string>
     <string name="no_favorites">No hay favoritos</string>
+    <string name="view_all">Mostrar todos</string>
+    <string name="show_less">Mostrar menos</string>
 </resources>

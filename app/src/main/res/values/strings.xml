@@ -229,4 +229,6 @@
         <string name="explore_places">Explore Places</string>
         <string name="places_you_mark_as_favorites_will_appear_here">Places you mark as favorites will appear here</string>
         <string name="no_favorites">No favorites</string>
+        <string name="view_all">View all</string>
+        <string name="show_less">Show less</string>
 </resources>
