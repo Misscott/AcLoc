@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +23,8 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/colorOnSurface"
+            android:lineSpacingExtra="2dp"
             tools:text="Este lugar tiene buena accesibilidad para sillas de ruedas y personas con discapacidad visual." />
 
         <!-- Rating and Accessibility Tags Container -->
@@ -67,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="11sp"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     tools:text="12/01/2024" />
 
             </LinearLayout>
@@ -85,6 +87,27 @@
                 tools:listitem="@layout/item_accessibility_tag" />
 
         </LinearLayout>
+
+        <!-- Report Image (small, at the bottom) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvReportImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/ivReportImage"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/place_image"
+                tools:src="@drawable/place_header" />
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

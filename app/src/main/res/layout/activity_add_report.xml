@@ -189,7 +189,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 app:tint="?attr/colorOnSurfaceVariant"
-                                android:src="@drawable/ic_thumb_up_average"
+                                android:src="@drawable/ic_thumb_side_border"
                                 android:background="?attr/selectableItemBackgroundBorderless"
                                 android:padding="16dp"
                                 android:contentDescription="@string/AVERAGE" />

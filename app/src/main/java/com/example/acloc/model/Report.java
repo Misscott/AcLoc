@@ -1,5 +1,8 @@
 package com.example.acloc.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,5 +101,67 @@ public class Report implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /**
+     * Establishes report type UUIDs from a JsonElement
+     * Can parse both JSON arrays and comma-separated strings
+     */
+    public void setReportTypeUuidsFromJsonElement(JsonElement element) {
+        reportTypeUuids.clear();
+
+        if (element == null || element.isJsonNull()) {
+            return;
+        }
+
+        if (element.isJsonArray()) {
+            // Json Array
+            JsonArray uuidsArray = element.getAsJsonArray();
+            for (JsonElement uuidElement : uuidsArray) {
+                reportTypeUuids.add(uuidElement.getAsString());
+            }
+        } else if (element.isJsonPrimitive()) {
+            // Comma separated strings
+            String uuidsString = element.getAsString();
+            if (uuidsString != null && !uuidsString.trim().isEmpty()) {
+                String[] uuidArray = uuidsString.split(",");
+                for (String uuid : uuidArray) {
+                    if (!uuid.trim().isEmpty()) {
+                        reportTypeUuids.add(uuid.trim());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Establishes report type names from a JsonElement
+     * Can parse both JSON arrays and comma-separated strings
+     */
+    public void setReportTypeNamesFromJsonElement(JsonElement element) {
+        reportTypeNames.clear();
+
+        if (element == null || element.isJsonNull()) {
+            return;
+        }
+
+        if (element.isJsonArray()) {
+            // Json Array case
+            JsonArray namesArray = element.getAsJsonArray();
+            for (JsonElement nameElement : namesArray) {
+                reportTypeNames.add(nameElement.getAsString());
+            }
+        } else if (element.isJsonPrimitive()) {
+            // Comma separated string case
+            String namesString = element.getAsString();
+            if (namesString != null && !namesString.trim().isEmpty()) {
+                String[] nameArray = namesString.split(",");
+                for (String name : nameArray) {
+                    if (!name.trim().isEmpty()) {
+                        reportTypeNames.add(name.trim());
+                    }
+                }
+            }
+        }
     }
 }
