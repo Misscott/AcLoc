@@ -8,12 +8,12 @@
     <string name="UPDATE">ACTUALIZAR</string>
     <string name="CANCEL">CANCELAR</string>
     <string name="SUBMIT">ENVIAR</string>
-    <string name="ADD_REPORT">AGREGAR COMENTARIO</string>
+    <string name="ADD_REPORT">AÑADIR COMENTARIO</string>
 
     <!--    toolbar -->
-    <string name="Add_Report">Agregar Comentario</string>
+    <string name="Add_Report">Añadir Comentario</string>
     <string name="Place_Details">Detalles</string>
-    <string name="Add_Place">Agregar localización</string>
+    <string name="Add_Place">Añadir lugar</string>
 
     <!--    edittext    -->
     <string name="Enter_Username">Introduzca nombre de usuario</string>
