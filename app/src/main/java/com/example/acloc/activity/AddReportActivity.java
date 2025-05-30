@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.acloc.adapter.ReportTypeAdapter;
@@ -31,6 +30,11 @@ import com.example.acloc.utility.DialogUtils;
 import com.example.acloc.utility.Helper;
 import com.example.acloc.utility.SharedPref;
 import com.example.acloc.utility.UploadManager;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonArray;
@@ -115,8 +119,15 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
         rvReportTypes = findViewById(R.id.rvReportTypes);
 
         // Setup RecyclerView for report types
-        rvReportTypes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        layoutManager.setAlignItems(AlignItems.FLEX_START);
+        rvReportTypes.setLayoutManager(layoutManager);
+
         reportTypeAdapter = new ReportTypeAdapter(this, reportTypesList);
+        rvReportTypes.setAdapter(reportTypeAdapter);
         reportTypeAdapter.setOnReportTypeClickListener(new ReportTypeAdapter.OnReportTypeClickListener() {
             @Override
             public void onReportTypeClick(ReportType reportType, int position, boolean isSelected) {
@@ -255,7 +266,16 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
 
             // Set selected report types (multiple)
             selectedReportTypeUuids.clear();
-            selectedReportTypeUuids.addAll(reportEntity.getReportTypeUuids());
+            if (reportEntity.getReportTypeUuids() != null) {
+                selectedReportTypeUuids.addAll(reportEntity.getReportTypeUuids());
+            }
+
+            // establish selection
+            if (!reportTypesList.isEmpty()) {
+                rvReportTypes.post(() -> {
+                    reportTypeAdapter.setSelectedReportTypes(selectedReportTypeUuids);
+                });
+            }
         }
     }
 
@@ -342,14 +362,15 @@ public class AddReportActivity extends AppCompatActivity implements View.OnClick
                 reportTypesList.add(reportType);
             }
 
-            // If editing existing report, mark selected types
-            if (isEditMode && reportEntity != null && !reportEntity.getReportTypeUuids().isEmpty()) {
-                reportTypeAdapter.setSelectedReportTypes(reportEntity.getReportTypeUuids());
-            }
-
-            Log.d("tag", "reportTypesList: " + reportTypesList.toString());
+            Log.d(TAG, "Loaded " + reportTypesList.size() + " report types");
 
             reportTypeAdapter.notifyDataSetChanged();
+
+            if (isEditMode && reportEntity != null && !reportEntity.getReportTypeUuids().isEmpty()) {
+                rvReportTypes.post(() -> {
+                    reportTypeAdapter.setSelectedReportTypes(reportEntity.getReportTypeUuids());
+                });
+            }
         }
     }
 
