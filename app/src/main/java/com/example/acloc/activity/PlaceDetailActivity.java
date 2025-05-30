@@ -458,7 +458,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private static @NonNull Report getReport(JsonElement element) {
+    public static @NonNull Report getReport(JsonElement element) {
         JsonObject reportObject = element.getAsJsonObject();
         Report report = new Report();
 
