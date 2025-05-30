@@ -69,6 +69,8 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
     private PlaceReportsAdapter adapter;
     private final List<Report> reportList = new ArrayList<>();
     private BottomSheetBehavior<View> behavior;
+    private TextView tvViewAllReports;
+    private List<Report> allReportsList = new ArrayList<>();
 
     public PlaceBottomSheetDialog(Place place) {
         this.place = place;
@@ -100,7 +102,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
 
                     @Override
                     public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                        // Do nothing for now
+                        // Do nothing
                     }
                 });
             }
@@ -136,6 +138,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         btnAddReport = view.findViewById(R.id.btnAddReport);
         rvReports = view.findViewById(R.id.rvReports);
         rvAccessibilityOverview = view.findViewById(R.id.rvAccessibilityOverview);
+        tvViewAllReports = view.findViewById(R.id.tvViewAllReports);
 
         rvReports.setLayoutManager(new LinearLayoutManager(context));
         rvAccessibilityOverview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -219,15 +222,24 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
             dismiss();
         });
 
-        View.OnClickListener fullScreenListener = v -> {
+        /*View.OnClickListener fullScreenListener = v -> {
             Helper.goTo(context, PlaceDetailActivity.class, Constants.PLACE, place);
             dismiss();
-        };
+        };*/
 
-        tvPlaceName.setOnClickListener(fullScreenListener);
+        tvViewAllReports.setOnClickListener(v -> {
+            //expand
+            showAllReports();
+
+            // fullscreen
+            // Helper.goTo(context, PlaceDetailActivity.class, Constants.PLACE, place);
+            // dismiss();
+        });
+
+        /*tvPlaceName.setOnClickListener(fullScreenListener);
         tvAddress.setOnClickListener(fullScreenListener);
         tvDescription.setOnClickListener(fullScreenListener);
-        ivPlaceImage.setOnClickListener(fullScreenListener);
+        ivPlaceImage.setOnClickListener(fullScreenListener);*/
     }
 
     private void loadReports() {
@@ -243,19 +255,28 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                     JsonObject data = responseBody.getAsJsonObject("_data");
 
                     if (data != null && data.has("reports")) {
-                        reportList.clear();
+                        allReportsList.clear();
 
                         for (JsonElement element : data.getAsJsonArray("reports")) {
                             Report report = getReport(element);
-                            reportList.add(report);
+                            allReportsList.add(report);
                         }
 
-                        Collections.reverse(reportList);
-                        List<Report> latestReports = reportList.size() > 3 ?
-                                reportList.subList(0, 3) : reportList;
+                        Collections.reverse(allReportsList);
+
+                        List<Report> latestReports = allReportsList.size() > 3 ?
+                                allReportsList.subList(0, 3) : allReportsList;
 
                         updateReportsUI(latestReports);
-                        calculateAndShowAccessibilityStats(reportList);
+
+                        if (allReportsList.size() > 3) {
+                            tvViewAllReports.setVisibility(View.VISIBLE);
+                            tvViewAllReports.setText(getString(R.string.view_all) + " (" + allReportsList.size() + ")");
+                        } else {
+                            tvViewAllReports.setVisibility(View.GONE);
+                        }
+
+                        calculateAndShowAccessibilityStats(allReportsList);
                     } else {
                         showNoReports();
                     }
@@ -275,29 +296,60 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
         JsonObject reportObject = element.getAsJsonObject();
         Report report = new Report();
 
-        report.setUuid(reportObject.get("uuid").getAsString());
-        report.setReportRating(reportObject.get("rating").getAsInt());
-        report.setDescription(reportObject.get("description").getAsString());
-        report.setPlaceName(reportObject.get("place_name").getAsString());
-        report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+        try {
+            // Campos básicos con verificación de null
+            if (reportObject.has("uuid") && !reportObject.get("uuid").isJsonNull()) {
+                report.setUuid(reportObject.get("uuid").getAsString());
+            }
 
-        List<String> reportTypeUuids = new ArrayList<>();
-        List<String> reportTypeNames = new ArrayList<>();
+            if (reportObject.has("rating") && !reportObject.get("rating").isJsonNull()) {
+                report.setReportRating(reportObject.get("rating").getAsInt());
+            }
 
-        processReportTypeField(reportObject, "report_type_uuids", reportTypeUuids);
-        processReportTypeField(reportObject, "report_type_names", reportTypeNames);
+            if (reportObject.has("description") && !reportObject.get("description").isJsonNull()) {
+                report.setDescription(reportObject.get("description").getAsString());
+            }
 
-        // Fallback for legacy fields (singular)
-        if (reportTypeUuids.isEmpty() && reportObject.has("report_type_uuid") && !reportObject.get("report_type_uuid").isJsonNull()) {
-            reportTypeUuids.add(reportObject.get("report_type_uuid").getAsString());
+            if (reportObject.has("place_name") && !reportObject.get("place_name").isJsonNull()) {
+                report.setPlaceName(reportObject.get("place_name").getAsString());
+            }
+
+            if (reportObject.has("place_uuid") && !reportObject.get("place_uuid").isJsonNull()) {
+                report.setPlaceUuid(reportObject.get("place_uuid").getAsString());
+            }
+
+            // Images
+            if (reportObject.has("images") && !reportObject.get("images").isJsonNull()) {
+                JsonElement imagesElement = reportObject.get("images");
+                if (imagesElement.isJsonArray()) {
+                    report.setImage(imagesElement.toString());
+                } else {
+                    report.setImage(imagesElement.getAsString());
+                }
+            }
+
+            //report type
+            List<String> reportTypeUuids = new ArrayList<>();
+            List<String> reportTypeNames = new ArrayList<>();
+
+            processReportTypeField(reportObject, "report_type_uuids", reportTypeUuids);
+            processReportTypeField(reportObject, "report_type_names", reportTypeNames);
+
+            // Fallback para campos legacy (singular)
+            if (reportTypeUuids.isEmpty() && reportObject.has("report_type_uuid") && !reportObject.get("report_type_uuid").isJsonNull()) {
+                reportTypeUuids.add(reportObject.get("report_type_uuid").getAsString());
+            }
+
+            if (reportTypeNames.isEmpty() && reportObject.has("report_type_name") && !reportObject.get("report_type_name").isJsonNull()) {
+                reportTypeNames.add(reportObject.get("report_type_name").getAsString());
+            }
+
+            report.setReportTypeUuids(reportTypeUuids);
+            report.setReportTypeNames(reportTypeNames);
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error parsing report: " + (report.getUuid() != null ? report.getUuid() : "unknown"), e);
         }
-
-        if (reportTypeNames.isEmpty() && reportObject.has("report_type_name") && !reportObject.get("report_type_name").isJsonNull()) {
-            reportTypeNames.add(reportObject.get("report_type_name").getAsString());
-        }
-
-        report.setReportTypeUuids(reportTypeUuids);
-        report.setReportTypeNames(reportTypeNames);
 
         return report;
     }
@@ -305,7 +357,7 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
     private static void processReportTypeField(JsonObject reportObject, String fieldName, List<String> resultList) {
         try {
             if (!reportObject.has(fieldName) || reportObject.get(fieldName).isJsonNull()) {
-                return; // null
+                return;
             }
 
             JsonElement element = reportObject.get(fieldName);
@@ -314,9 +366,11 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                 // array JSON
                 JsonArray array = element.getAsJsonArray();
                 for (JsonElement item : array) {
-                    String value = item.getAsString().trim();
-                    if (!value.isEmpty()) {
-                        resultList.add(value);
+                    if (!item.isJsonNull()) {
+                        String value = item.getAsString().trim();
+                        if (!value.isEmpty()) {
+                            resultList.add(value);
+                        }
                     }
                 }
                 Log.d(TAG, fieldName + " processed as array: " + resultList.size() + " items");
@@ -333,15 +387,37 @@ public class PlaceBottomSheetDialog extends BottomSheetDialogFragment {
                             resultList.add(cleanValue);
                         }
                     }
-                    Log.d(TAG, fieldName + " processed as string: " + resultList.size() + " items from '" + stringValue + "'");
                 }
-            } else {
-                Log.w(TAG, fieldName + " is neither array nor primitive: " + element.getClass().getSimpleName());
             }
 
         } catch (Exception e) {
             Log.e(TAG, "Error processing " + fieldName, e);
         }
+    }
+
+    private void showAllReports() {
+        updateReportsUI(allReportsList);
+
+        tvViewAllReports.setText(getString(R.string.show_less));
+
+        tvViewAllReports.setOnClickListener(v -> showLessReports());
+
+        // Expand bottom sheet if it is not expanded
+        if (behavior != null && behavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+    }
+
+    private void showLessReports() {
+        // Mostrar solo los primeros 3 reportes
+        List<Report> latestReports = allReportsList.size() > 3 ?
+                allReportsList.subList(0, 3) : allReportsList;
+
+        updateReportsUI(latestReports);
+
+        // Restaurar texto y listener original
+        tvViewAllReports.setText(getString(R.string.view_all) + " (" + allReportsList.size() + ")");
+        tvViewAllReports.setOnClickListener(v -> showAllReports());
     }
 
     private void calculateAndShowAccessibilityStats(List<Report> allReports) {

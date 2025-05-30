@@ -55,7 +55,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@+id/ivExpand"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -223,14 +222,37 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <TextView
+                <!-- Reports Header with View All button -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="@string/recent_reports"
-                    android:layout_marginBottom="16dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:text="@string/recent_reports" />
+
+                    <TextView
+                        android:id="@+id/tvViewAllReports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_all"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:background="?attr/selectableItemBackground"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                </LinearLayout>
 
                 <!-- Empty State -->
                 <LinearLayout
